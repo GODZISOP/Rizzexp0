@@ -1,0 +1,1912 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIZZEXP0 — Timepiece Details</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --accent: #c5a27d;
+      --accent-rgb: 197, 162, 125;
+      --bg: #faf9f6;
+      --surface: #ffffff;
+      --ink: #16161a;
+      --ink-muted: #6c6860;
+      --border: #e6e2da;
+      --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: clip;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Top Minimal Luxury Header */
+    .pdp-header {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      background: rgba(250, 249, 246, 0.94);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pdp-header-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 18px clamp(18px, 4vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-mark::after {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .brand-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .pdp-nav {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .pdp-nav a {
+      text-decoration: none;
+      color: var(--ink-muted);
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      transition: color 220ms ease;
+    }
+
+    .pdp-nav a:hover {
+      color: var(--ink);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bag-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 220ms ease, background 220ms ease, color 220ms ease;
+    }
+
+    .bag-btn:hover {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    /* Breadcrumb + Quick Prev/Next Bar (matches uploaded PDP reference) */
+    .pdp-subbar {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 20px clamp(18px, 4vw, 56px) 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .breadcrumbs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8c877e;
+    }
+
+    .breadcrumbs a {
+      color: #8c877e;
+      text-decoration: none;
+      transition: color 200ms ease;
+    }
+
+    .breadcrumbs a:hover {
+      color: var(--ink);
+    }
+
+    .breadcrumbs strong {
+      color: var(--ink);
+    }
+
+    .pdp-arrows {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .arrow-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: border-color 220ms ease, background 220ms ease, color 220ms ease;
+    }
+
+    .arrow-btn:hover {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: #ffffff;
+    }
+
+    /* Main 2-Column Product Detail Grid */
+    .pdp-main {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 20px clamp(18px, 4vw, 56px) 76px;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: clamp(32px, 5vw, 84px);
+      align-items: start;
+    }
+
+    /* Left Gallery Column */
+    .pdp-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pdp-stage {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 4.3;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 48%, #ffffff 0%, #f4f2ed 78%, #edeae3 100%);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: clamp(20px, 4vw, 44px);
+    }
+
+    .pdp-stage.is-dark-shot {
+      padding: 0;
+      background: #0c0e13;
+    }
+
+    .pdp-main-img {
+      max-width: 84%;
+      max-height: 88%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+      transition: opacity 280ms ease, transform 520ms var(--ease-luxe);
+      will-change: transform, opacity;
+    }
+
+    .pdp-stage.is-dark-shot .pdp-main-img {
+      max-width: 100%;
+      max-height: 100%;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 65% center;
+    }
+
+    .pdp-stage:hover .pdp-main-img {
+      transform: scale(1.045);
+    }
+
+    .pdp-main-img.is-swapping {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    .pdp-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .pdp-thumb {
+      aspect-ratio: 1 / 1;
+      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
+      padding: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 220ms ease, transform 240ms var(--ease-luxe);
+    }
+
+    .pdp-thumb.is-cover {
+      padding: 0;
+      background: #0e1016;
+    }
+
+    .pdp-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .pdp-thumb.is-cover img {
+      object-fit: cover;
+      object-position: 66% center;
+    }
+
+    .pdp-thumb:hover {
+      transform: translateY(-2px);
+      border-color: #a69c8e;
+    }
+
+    .pdp-thumb.is-active {
+      border-color: var(--ink);
+      box-shadow: 0 8px 20px rgba(20, 20, 24, 0.08);
+    }
+
+    /* Right Info Column (Exact luxury hierarchy from uploaded reference) */
+    .pdp-info {
+      padding-top: 8px;
+      animation: fadeUpIn 540ms var(--ease-luxe) both;
+    }
+
+    @keyframes fadeUpIn {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 18px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+    }
+
+    .pdp-brand-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #6b675f;
+      margin-bottom: 10px;
+    }
+
+    .pdp-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.3rem, 4vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.05;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .pdp-sku {
+      font-size: 0.74rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #9a958b;
+      margin-bottom: 22px;
+    }
+
+    .pdp-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+      margin-bottom: 26px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pdp-price {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 2.15rem;
+      font-weight: 600;
+      color: #a47e52;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .pdp-stock {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: #4f6b55;
+      letter-spacing: 0.06em;
+    }
+
+    .pdp-stock::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #4f8a5b;
+    }
+
+    .pdp-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .pdp-desc {
+      font-size: 0.92rem;
+      line-height: 1.76;
+      color: var(--ink-muted);
+      margin-bottom: 28px;
+    }
+
+    /* Color Swatches + Quantity Row */
+    .pdp-options-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+
+    .swatch-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .swatch-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid transparent;
+      padding: 3px;
+      background: transparent;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform 220ms var(--ease-luxe), border-color 220ms ease;
+    }
+
+    .swatch-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .swatch-btn.is-active {
+      border-color: var(--ink);
+    }
+
+    .swatch-dot {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: block;
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.16);
+    }
+
+    .qty-box {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    .qty-btn {
+      width: 38px;
+      height: 40px;
+      border: none;
+      background: transparent;
+      color: var(--ink);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 180ms ease;
+    }
+
+    .qty-btn:hover {
+      background: #f2f0eb;
+    }
+
+    .qty-val {
+      min-width: 44px;
+      text-align: center;
+      font-size: 0.84rem;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Primary Dual CTA Row (Matches uploaded screenshot) */
+    .pdp-cta-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .btn-fav {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 18px;
+      border: 1.5px solid #232327;
+      background: #ffffff;
+      color: #16161a;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 220ms ease, color 220ms ease, transform 220ms var(--ease-luxe);
+    }
+
+    .btn-fav:hover,
+    .btn-fav.is-saved {
+      background: #f5efe6;
+      border-color: #967758;
+      color: #7c5c3a;
+      transform: translateY(-1px);
+    }
+
+    .btn-bag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 18px;
+      border: 1.5px solid #16161a;
+      background: #16161a;
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 220ms ease, transform 220ms var(--ease-luxe);
+    }
+
+    .btn-bag:hover {
+      background: #2f2a24;
+      transform: translateY(-1px);
+    }
+
+    /* Technical Specs Table */
+    .pdp-specs {
+      border-top: 1px solid var(--border);
+      padding-top: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 24px;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .spec-k {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #938e84;
+    }
+
+    .spec-v {
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--ink);
+    }
+
+    .pdp-trust {
+      margin-top: 26px;
+      padding: 16px 18px;
+      border-radius: 10px;
+      background: #f3f1ec;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px 22px;
+      font-size: 0.74rem;
+      color: #55514a;
+      font-weight: 500;
+    }
+
+    /* Related Watches Section */
+    .related-section {
+      border-top: 1px solid var(--border);
+      background: #ffffff;
+      padding: 64px clamp(18px, 4vw, 56px) 84px;
+    }
+
+    .related-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+    }
+
+    .related-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .related-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(1.9rem, 3.2vw, 2.7rem);
+      font-weight: 500;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .rel-card {
+      text-decoration: none;
+      color: inherit;
+      background: #faf9f6;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 280ms var(--ease-luxe), border-color 220ms ease;
+    }
+
+    .rel-card:hover {
+      transform: translateY(-4px);
+      border-color: #b9ae9e;
+    }
+
+    .rel-card.is-current {
+      border-color: var(--ink);
+    }
+
+    .rel-thumb {
+      aspect-ratio: 4 / 3;
+      background: #0d0f14;
+      overflow: hidden;
+    }
+
+    .rel-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 67% center;
+      transform: scale(1.16);
+      display: block;
+    }
+
+    .rel-body {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .rel-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .rel-price {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: #8f6b42;
+    }
+
+    /* Full Luxury Multi-Column Footer + Interactive Matter.js Gravity Blocks */
+    .site-footer {
+      position: relative;
+      width: 100%;
+      background:
+        radial-gradient(ellipse 65% 42% at 50% 0%, rgba(var(--accent-rgb), 0.14), transparent 72%),
+        linear-gradient(180deg, #090b10 0%, #0c0f16 55%, #07090d 100%);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.24);
+      color: #f7f4ef;
+      overflow: hidden;
+    }
+
+    .footer-grid {
+      position: relative;
+      z-index: 10;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: clamp(50px, 6.5vh, 76px) clamp(18px, 4vw, 56px) 40px;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.15fr;
+      gap: clamp(24px, 4vw, 52px);
+    }
+
+    .site-footer .brand {
+      color: #f7f4ef;
+    }
+
+    .footer-brand-blurb {
+      margin-top: 14px;
+      margin-bottom: 20px;
+      max-width: 340px;
+      font-size: 0.86rem;
+      line-height: 1.68;
+      color: rgba(247, 244, 239, 0.68);
+    }
+
+    .footer-newsletter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 350px;
+    }
+
+    .footer-newsletter input {
+      flex: 1;
+      min-width: 0;
+      padding: 11px 15px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(14, 17, 24, 0.9);
+      color: #f7f4ef;
+      font-family: inherit;
+      font-size: 0.92rem;
+      outline: none;
+    }
+
+    .footer-newsletter input:focus {
+      border-color: var(--accent);
+    }
+
+    .footer-newsletter button {
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #0b0d12;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .footer-col-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .footer-col-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-col-list a {
+      font-size: 0.86rem;
+      color: rgba(247, 244, 239, 0.72);
+      text-decoration: none;
+      transition: color 200ms ease, transform 220ms var(--ease-luxe);
+      display: inline-block;
+    }
+
+    .footer-col-list a:hover {
+      color: #ffffff;
+      transform: translateX(3px);
+    }
+
+    .footer-col-meta {
+      font-size: 0.84rem;
+      line-height: 1.7;
+      color: rgba(247, 244, 239, 0.65);
+      margin-bottom: 16px;
+    }
+
+    .footer-col-meta a {
+      color: #f7f4ef;
+      text-decoration: none;
+    }
+
+    .footer-redrop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(16, 19, 27, 0.9);
+      color: #f7f4ef;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .footer-redrop-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .shape-arena {
+      position: relative;
+      width: 100%;
+      height: 390px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: #07080b;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    .footer-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(4.2rem, 14vw, 13rem);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: rgba(255, 255, 255, 0.045);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .shapes-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .gravity-shape {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      user-select: none;
+      cursor: grab;
+      pointer-events: auto;
+      touch-action: none;
+      will-change: transform;
+    }
+
+    .gravity-shape:active,
+    .gravity-shape.is-dragging {
+      cursor: grabbing;
+      z-index: 30;
+    }
+
+    .gravity-shape.tone-dark { background: #16171c; color: #f4f4f6; border: 1px solid rgba(255, 255, 255, 0.07); }
+    .gravity-shape.tone-white { background: #f4f4f5; color: #111216; border: 1px solid rgba(255, 255, 255, 0.9); }
+    .gravity-shape.tone-accent { background: var(--accent); color: #0d0e12; border: 1px solid rgba(255, 255, 255, 0.22); }
+    .gravity-shape.tone-amber { background: #ff6200; color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.16); }
+    .gravity-shape.tone-charcoal { background: #1f2027; color: #e4e4e7; border: 1px solid rgba(255, 255, 255, 0.14); }
+
+    .shape-drag-hint {
+      position: absolute;
+      top: 14px;
+      right: clamp(18px, 4vw, 56px);
+      z-index: 12;
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(247, 244, 239, 0.38);
+      pointer-events: none;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #06080c;
+      padding: 20px clamp(18px, 4vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 0.74rem;
+      color: rgba(247, 244, 239, 0.5);
+    }
+
+    .footer-bottom a {
+      color: rgba(247, 244, 239, 0.72);
+      text-decoration: none;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      font-size: 0.7rem;
+    }
+
+    /* Scroll-replay animation on Related Cards */
+    .rel-card {
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition: opacity 480ms ease var(--rel-delay, 0ms), transform 560ms var(--ease-luxe) var(--rel-delay, 0ms), border-color 220ms ease;
+    }
+
+    .related-section.is-visible .rel-card {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @media (max-width: 960px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shape-arena {
+        height: 290px;
+      }
+
+      .shape-drag-hint {
+        display: none;
+      }
+    }
+
+    /* Slide-Out Shopping Bag Drawer */
+    .bag-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      background: rgba(9, 11, 16, 0.56);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 280ms ease;
+    }
+
+    .bag-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .bag-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(420px, 100vw);
+      z-index: 65;
+      background: #ffffff;
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      transform: translate3d(100%, 0, 0);
+      transition: transform 360ms var(--ease-luxe);
+      box-shadow: -20px 0 50px rgba(0, 0, 0, 0.22);
+    }
+
+    .bag-drawer.is-open {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .bag-head {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .bag-head h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .bag-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .bag-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .bag-empty {
+      color: var(--ink-muted);
+      font-size: 0.9rem;
+      text-align: center;
+      padding: 48px 12px;
+    }
+
+    .bag-row {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding-bottom: 14px;
+      border-bottom: 1px solid #f0ede7;
+    }
+
+    .bag-row img {
+      width: 72px;
+      height: 72px;
+      border-radius: 10px;
+      object-fit: cover;
+      object-position: 67% center;
+      background: #0d0f14;
+    }
+
+    .bag-row-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .bag-row-meta {
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      margin-top: 2px;
+    }
+
+    .bag-remove {
+      border: none;
+      background: none;
+      color: #8f8a80;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .bag-remove:hover {
+      color: #b42318;
+    }
+
+    .bag-foot {
+      padding: 20px 24px 26px;
+      border-top: 1px solid var(--border);
+      background: #faf9f6;
+    }
+
+    .bag-total-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .bag-total-price {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.55rem;
+      color: #8f6b42;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 80;
+      padding: 12px 20px;
+      border-radius: 10px;
+      background: #14161c;
+      color: #f7f4ef;
+      font-size: 0.8rem;
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      pointer-events: none;
+      transition: opacity 240ms ease, transform 300ms var(--ease-luxe);
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @media (max-width: 960px) {
+      .pdp-main {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .pdp-nav {
+        display: none;
+      }
+
+      .pdp-cta-row {
+        grid-template-columns: 1fr;
+      }
+
+      .pdp-specs {
+        grid-template-columns: 1fr;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pdp-options-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="pdp-header">
+    <div class="pdp-header-inner">
+      <a href="./index.html" class="brand">
+        <span class="brand-mark"></span>
+        <span class="brand-name">RizzExp0</span>
+      </a>
+      <nav class="pdp-nav" aria-label="Main Navigation">
+        <a href="./index.html#hero">Home</a>
+        <a href="./index.html#collection">Collection</a>
+        <a href="./index.html#oliverGallery">Gallery</a>
+        <a href="./index.html#faqs">FAQs</a>
+        <a href="./index.html#contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <button class="bag-btn" id="openBagBtn" type="button">
+          <span>Bag</span>
+          <span id="bagCount">(0)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="pdp-subbar">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="./index.html">Home</a>
+      <span>/</span>
+      <a href="./index.html#productsGrid">Timepieces</a>
+      <span>/</span>
+      <strong id="crumbName">Sovereign Espresso</strong>
+    </nav>
+    <div class="pdp-arrows">
+      <button class="arrow-btn" id="prevWatchBtn" type="button" aria-label="Previous timepiece">&lsaquo;</button>
+      <button class="arrow-btn" id="nextWatchBtn" type="button" aria-label="Next timepiece">&rsaquo;</button>
+    </div>
+  </div>
+
+  <main class="pdp-main">
+    <section class="pdp-gallery" aria-label="Product Images">
+      <div class="pdp-stage" id="pdpStage">
+        <img class="pdp-main-img" id="pdpMainImg" src="./watch-anatomy-transparent.png" alt="Timepiece" />
+      </div>
+      <div class="pdp-thumbs" id="pdpThumbs"></div>
+    </section>
+
+    <section class="pdp-info" aria-label="Product Specifications">
+      <div class="pdp-brand-eyebrow" id="pdpCollection">RizzExp0 Geneva &middot; Heritage Reserve</div>
+      <h1 class="pdp-title" id="pdpTitle">Sovereign Espresso</h1>
+      <div class="pdp-sku" id="pdpSku">Reference Style #VG-4018-RG</div>
+
+      <div class="pdp-price-row">
+        <span class="pdp-price" id="pdpPrice">$1,450</span>
+        <span class="pdp-stock">In Stock &middot; Ships Insured</span>
+      </div>
+
+      <span class="pdp-label">Description</span>
+      <p class="pdp-desc" id="pdpDesc"></p>
+
+      <div class="pdp-options-row">
+        <div>
+          <span class="pdp-label">Edition</span>
+          <div class="swatch-group" id="swatchGroup"></div>
+        </div>
+        <div>
+          <span class="pdp-label">Quantity</span>
+          <div class="qty-box">
+            <button class="qty-btn" id="qtyMinus" type="button" aria-label="Decrease quantity">&minus;</button>
+            <span class="qty-val" id="qtyVal">1</span>
+            <button class="qty-btn" id="qtyPlus" type="button" aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="pdp-cta-row">
+        <button class="btn-fav" id="favBtn" type="button">
+          <span id="favIcon">&#9825;</span>
+          <span id="favLabel">Add to Favorites</span>
+        </button>
+        <button class="btn-bag" id="addBagBtn" type="button">
+          Add to Bag
+        </button>
+      </div>
+
+      <div class="pdp-specs" id="pdpSpecs"></div>
+
+      <div class="pdp-trust">
+        <span>&#10003; 5-Year Geneva Warranty</span>
+        <span>&#10003; COSC Certified Caliber</span>
+        <span>&#10003; Concierge: info@rizzexp0.com</span>
+      </div>
+    </section>
+  </main>
+
+  <section class="related-section" aria-label="All Timepieces">
+    <div class="related-inner">
+      <div class="related-head">
+        <h2 class="related-title">Explore the Collection</h2>
+        <a href="./index.html#collection" style="color: var(--ink); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none;">Back to Showcase &rarr;</a>
+      </div>
+      <div class="related-grid" id="relatedGrid"></div>
+    </div>
+  </section>
+
+  <!-- Structured Luxury Footer + Interactive Gravity Blocks Tray -->
+  <footer class="site-footer" id="footer">
+    <div class="footer-grid">
+      <div>
+        <a href="./index.html" class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">RizzExp0</span>
+        </a>
+        <p class="footer-brand-blurb">
+          Independent Geneva horology crafted in brushed 18k gold, stainless steel, and matte ceramic.
+          Private releases &amp; atelier previews delivered directly.
+        </p>
+        <form class="footer-newsletter" id="footerNewsletter">
+          <input type="email" id="newsletterEmail" placeholder="Your email for private drops" aria-label="Email address" required />
+          <button type="submit">Join</button>
+        </form>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">Timepieces</h3>
+        <ul class="footer-col-list">
+          <li><a href="./product.html?id=0">Sovereign Espresso</a></li>
+          <li><a href="./product.html?id=1">Aether Midnight</a></li>
+          <li><a href="./product.html?id=2">Verdant Royal</a></li>
+          <li><a href="./product.html?id=3">Obsidian Chrono</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">The Maison</h3>
+        <ul class="footer-col-list">
+          <li><a href="./index.html#collection">Collection</a></li>
+          <li><a href="./index.html#oliverGallery">Gallery</a></li>
+          <li><a href="./index.html#faqs">FAQs</a></li>
+          <li><a href="./index.html#contact">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">Client Concierge</h3>
+        <p class="footer-col-meta">
+          Rue du Rh&ocirc;ne 42, Geneva<br />
+          Dubai Mall &middot; Mayfair London<br />
+          <a href="mailto:info@rizzexp0.com">info@rizzexp0.com</a>
+        </p>
+        <button class="footer-redrop-btn" id="redropShapesBtn" type="button">
+          <span aria-hidden="true">&#8635;</span>
+          <span>Drop Blocks Again</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="shape-arena" id="shapeArena">
+      <div class="footer-watermark" aria-hidden="true">RIZZEXP0</div>
+      <div class="shapes-layer" id="shapesLayer" aria-label="Interactive physics blocks"></div>
+      <span class="shape-drag-hint">Grab &amp; throw the blocks</span>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 RizzExp0 Haute Horlogerie. All rights reserved.</span>
+      <div class="footer-legal-links">
+        <a href="./index.html#faqs">Warranty</a>
+        <a href="./index.html#contact">Concierge</a>
+        <a href="mailto:info@rizzexp0.com">info@rizzexp0.com</a>
+      </div>
+      <a href="#top" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">Top &uarr;</a>
+    </div>
+  </footer>
+
+  <!-- Slide-out Shopping Bag Drawer -->
+  <div class="bag-backdrop" id="bagBackdrop"></div>
+  <aside class="bag-drawer" id="bagDrawer" aria-label="Shopping Bag">
+    <div class="bag-head">
+      <h2>Your Bag</h2>
+      <button class="bag-close" id="closeBagBtn" type="button" aria-label="Close bag">&times;</button>
+    </div>
+    <div class="bag-items" id="bagItems"></div>
+    <div class="bag-foot">
+      <div class="bag-total-row">
+        <span>Subtotal</span>
+        <span class="bag-total-price" id="bagTotal">$0</span>
+      </div>
+      <button class="btn-bag" id="checkoutBtn" type="button" style="width: 100%;">
+        Request Private Order
+      </button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script>
+    const catalog = [
+      {
+        id: 0,
+        collection: "RizzExp0 Geneva · Heritage Reserve",
+        name: "Sovereign Espresso",
+        sku: "Reference Style #VG-4018-RG",
+        priceNum: 1450,
+        price: "$1,450",
+        swatch: "#c5a27d",
+        desc: "Milled from solid 18k warm rose gold and hand-finished in our Geneva atelier, the Sovereign Espresso brings together a diamond-indexed chocolate sunburst dial, fluted gold bezel, sapphire cyclops lens, and an articulated three-link President bracelet powered by our 72-hour automatic caliber.",
+        gallery: [
+          { src: "./watch-anatomy-transparent.png", dark: false },
+          { src: "./watch-hero-no-text.jpg", dark: true },
+          { src: "./gallery-wrist-editorial.jpg", dark: true },
+          { src: "./gallery-macro-movement.jpg", dark: true }
+        ],
+        specs: [
+          ["Case Diameter", "40mm Brushed 18k Rose Gold"],
+          ["Movement", "Caliber V-09 Automatic"],
+          ["Power Reserve", "72 Hours · COSC Certified"],
+          ["Bezel", "Diamond-Cut Fluted Gold"],
+          ["Crystal", "Domed Anti-Reflective Sapphire"],
+          ["Water Resistance", "100 Meters / 10 ATM"]
+        ]
+      },
+      {
+        id: 1,
+        collection: "RizzExp0 Geneva · Celestial Edition",
+        name: "Aether Midnight",
+        sku: "Reference Style #VG-3912-SS",
+        priceNum: 1290,
+        price: "$1,290",
+        swatch: "#7b93ab",
+        desc: "Precision-machined from 904L stainless steel with a silky five-link Jubilee bracelet and mirror-polished domed bezel. Its deep royal sapphire sunburst dial features baton hour markers, dauphine hands, and a recessed small-seconds register at 6 o'clock.",
+        gallery: [
+          { src: "./pdp-navy-transparent.png", dark: false },
+          { src: "./watch-hero-navy-silver.jpg", dark: true },
+          { src: "./pdp-navy-dial.jpg", dark: true },
+          { src: "./gallery-macro-movement.jpg", dark: true }
+        ],
+        specs: [
+          ["Case Diameter", "39mm 904L Stainless Steel"],
+          ["Movement", "Caliber V-07 Sub-Second Auto"],
+          ["Power Reserve", "68 Hours · Swiss Made"],
+          ["Bracelet", "5-Link Brushed & Polished Jubilee"],
+          ["Crystal", "Scratch-Proof Sapphire"],
+          ["Water Resistance", "100 Meters / 10 ATM"]
+        ]
+      },
+      {
+        id: 2,
+        collection: "RizzExp0 Geneva · Atelier Sport",
+        name: "Verdant Royal",
+        sku: "Reference Style #VG-4124-EM",
+        priceNum: 1890,
+        price: "$1,890",
+        swatch: "#265941",
+        desc: "Sculpted in two-tone brushed 18k yellow gold and architectural stainless steel, the Verdant Royal commands attention with its signature octagonal screw-set bezel framing a vivid emerald forest sunburst dial and luminous gold baton indices.",
+        gallery: [
+          { src: "./gallery-emerald-macro.jpg", dark: true },
+          { src: "./watch-hero-emerald-gold.jpg", dark: true },
+          { src: "./pdp-emerald-dial.jpg", dark: true },
+          { src: "./gallery-macro-movement.jpg", dark: true }
+        ],
+        specs: [
+          ["Case Diameter", "41mm Two-Tone Gold & Steel"],
+          ["Movement", "Caliber V-09 Automatic"],
+          ["Power Reserve", "72 Hours · COSC Certified"],
+          ["Bezel", "Octagonal Brushed 18k Gold"],
+          ["Crystal", "Sapphire Front & Exhibition Back"],
+          ["Water Resistance", "100 Meters / 10 ATM"]
+        ]
+      },
+      {
+        id: 3,
+        collection: "RizzExp0 Geneva · Stealth Series",
+        name: "Obsidian Chrono",
+        sku: "Reference Style #VG-4290-BC",
+        priceNum: 2150,
+        price: "$2,150",
+        swatch: "#262930",
+        desc: "Sintered at 1,450°C from matte black zirconium ceramic and paired with brushed gunmetal pushers, the Obsidian Chrono delivers stealth architectural ergonomics alongside a precision tri-compax column-wheel chronograph and hidden titanium deployant clasp.",
+        gallery: [
+          { src: "./watch-floating-transparent.png", dark: false },
+          { src: "./gallery-obsidian-slate.jpg", dark: true },
+          { src: "./watch-hero-obsidian-black.jpg", dark: true },
+          { src: "./gallery-macro-movement.jpg", dark: true }
+        ],
+        specs: [
+          ["Case Diameter", "42mm Matte Black Ceramic"],
+          ["Movement", "Caliber V-12 Column-Wheel Chrono"],
+          ["Power Reserve", "72 Hours · Tri-Compax"],
+          ["Clasp", "Grade-5 Titanium Deployant"],
+          ["Crystal", "Anti-Reflective Sapphire"],
+          ["Water Resistance", "100 Meters / 10 ATM"]
+        ]
+      }
+    ];
+
+    let activeId = 0;
+    let qty = 1;
+    let favorites = JSON.parse(localStorage.getItem("rizzexp0_favs") || "[]");
+    let bag = JSON.parse(localStorage.getItem("rizzexp0_bag") || "[]");
+
+    const params = new URLSearchParams(window.location.search);
+    const paramId = Number(params.get("id"));
+    if (!Number.isNaN(paramId) && paramId >= 0 && paramId < catalog.length) {
+      activeId = paramId;
+    }
+
+    const pdpStage = document.getElementById("pdpStage");
+    const pdpMainImg = document.getElementById("pdpMainImg");
+    const pdpThumbs = document.getElementById("pdpThumbs");
+    const swatchGroup = document.getElementById("swatchGroup");
+    const pdpSpecs = document.getElementById("pdpSpecs");
+    const relatedGrid = document.getElementById("relatedGrid");
+    const qtyVal = document.getElementById("qtyVal");
+    const favBtn = document.getElementById("favBtn");
+    const favIcon = document.getElementById("favIcon");
+    const favLabel = document.getElementById("favLabel");
+    const bagCount = document.getElementById("bagCount");
+    const bagBackdrop = document.getElementById("bagBackdrop");
+    const bagDrawer = document.getElementById("bagDrawer");
+    const bagItems = document.getElementById("bagItems");
+    const bagTotal = document.getElementById("bagTotal");
+    const toast = document.getElementById("toast");
+
+    let toastTimer = null;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add("is-visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("is-visible"), 2400);
+    }
+
+    function saveBag() {
+      localStorage.setItem("rizzexp0_bag", JSON.stringify(bag));
+      renderBag();
+    }
+
+    function renderBag() {
+      const count = bag.reduce((sum, item) => sum + item.qty, 0);
+      bagCount.textContent = `(${count})`;
+      if (!bag.length) {
+        bagItems.innerHTML = `<p class="bag-empty">Your shopping bag is currently empty.</p>`;
+        bagTotal.textContent = "$0";
+        return;
+      }
+      let total = 0;
+      bagItems.innerHTML = bag
+        .map((entry, idx) => {
+          const item = catalog[entry.id] || catalog[0];
+          total += item.priceNum * entry.qty;
+          return `
+            <div class="bag-row">
+              <img src="${item.gallery[1] ? item.gallery[1].src : item.gallery[0].src}" alt="${item.name}" />
+              <div>
+                <div class="bag-row-name">${item.name}</div>
+                <div class="bag-row-meta">Qty ${entry.qty} &middot; ${item.price}</div>
+              </div>
+              <button class="bag-remove" type="button" data-remove-idx="${idx}">Remove</button>
+            </div>
+          `;
+        })
+        .join("");
+      bagTotal.textContent = `$${total.toLocaleString()}`;
+      bagItems.querySelectorAll("[data-remove-idx]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          bag.splice(Number(btn.getAttribute("data-remove-idx")), 1);
+          saveBag();
+        });
+      });
+    }
+
+    function setMainImage(shot, thumbIndex) {
+      pdpMainImg.classList.add("is-swapping");
+      setTimeout(() => {
+        pdpStage.classList.toggle("is-dark-shot", Boolean(shot.dark));
+        pdpMainImg.src = shot.src;
+        pdpMainImg.classList.remove("is-swapping");
+      }, 140);
+      pdpThumbs.querySelectorAll(".pdp-thumb").forEach((el, i) => {
+        el.classList.toggle("is-active", i === thumbIndex);
+      });
+    }
+
+    function renderWatch(id) {
+      activeId = id;
+      qty = 1;
+      qtyVal.textContent = "1";
+      const w = catalog[id];
+
+      document.title = `RIZZEXP0 — ${w.name}`;
+      document.documentElement.style.setProperty("--accent", w.swatch);
+      document.getElementById("crumbName").textContent = w.name;
+      document.getElementById("pdpCollection").textContent = w.collection;
+      document.getElementById("pdpTitle").textContent = w.name;
+      document.getElementById("pdpSku").textContent = w.sku;
+      document.getElementById("pdpPrice").textContent = w.price;
+      document.getElementById("pdpDesc").textContent = w.desc;
+
+      // Gallery thumbnails
+      pdpThumbs.innerHTML = "";
+      w.gallery.forEach((shot, i) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `pdp-thumb${shot.dark ? " is-cover" : ""}${i === 0 ? " is-active" : ""}`;
+        btn.setAttribute("aria-label", `View angle ${i + 1}`);
+        btn.innerHTML = `<img src="${shot.src}" alt="${w.name} view ${i + 1}" />`;
+        btn.addEventListener("click", () => setMainImage(shot, i));
+        pdpThumbs.appendChild(btn);
+      });
+      pdpStage.classList.toggle("is-dark-shot", Boolean(w.gallery[0].dark));
+      pdpMainImg.src = w.gallery[0].src;
+      pdpMainImg.alt = w.name;
+
+      // Swatches
+      swatchGroup.innerHTML = "";
+      catalog.forEach((item) => {
+        const sBtn = document.createElement("button");
+        sBtn.type = "button";
+        sBtn.className = `swatch-btn${item.id === activeId ? " is-active" : ""}`;
+        sBtn.title = item.name;
+        sBtn.setAttribute("aria-label", `Switch to ${item.name}`);
+        sBtn.innerHTML = `<span class="swatch-dot" style="background:${item.swatch}"></span>`;
+        sBtn.addEventListener("click", () => {
+          history.replaceState(null, "", `?id=${item.id}`);
+          renderWatch(item.id);
+        });
+        swatchGroup.appendChild(sBtn);
+      });
+
+      // Specs
+      pdpSpecs.innerHTML = w.specs
+        .map(([k, v]) => `<div class="spec-item"><span class="spec-k">${k}</span><span class="spec-v">${v}</span></div>`)
+        .join("");
+
+      // Favorite state
+      const isFav = favorites.includes(activeId);
+      favBtn.classList.toggle("is-saved", isFav);
+      favIcon.innerHTML = isFav ? "&#9829;" : "&#9825;";
+      favLabel.textContent = isFav ? "Saved to Favorites" : "Add to Favorites";
+
+      // Related strip with staggered scroll-replay delays
+      relatedGrid.innerHTML = catalog
+        .map(
+          (item, i) => `
+          <a class="rel-card${item.id === activeId ? " is-current" : ""}" href="?id=${item.id}" style="--rel-delay:${i * 75}ms;">
+            <div class="rel-thumb">
+              <img src="${item.gallery[1] ? item.gallery[1].src : item.gallery[0].src}" alt="${item.name}" loading="lazy" />
+            </div>
+            <div class="rel-body">
+              <span class="rel-name">${item.name}</span>
+              <span class="rel-price">${item.price}</span>
+            </div>
+          </a>`
+        )
+        .join("");
+    }
+
+    document.getElementById("qtyMinus").addEventListener("click", () => {
+      qty = Math.max(1, qty - 1);
+      qtyVal.textContent = String(qty);
+    });
+    document.getElementById("qtyPlus").addEventListener("click", () => {
+      qty = Math.min(10, qty + 1);
+      qtyVal.textContent = String(qty);
+    });
+
+    favBtn.addEventListener("click", () => {
+      if (favorites.includes(activeId)) {
+        favorites = favorites.filter((x) => x !== activeId);
+        showToast(`Removed ${catalog[activeId].name} from favorites`);
+      } else {
+        favorites.push(activeId);
+        showToast(`Saved ${catalog[activeId].name} to favorites`);
+      }
+      localStorage.setItem("rizzexp0_favs", JSON.stringify(favorites));
+      renderWatch(activeId);
+    });
+
+    function openBag() {
+      bagBackdrop.classList.add("is-open");
+      bagDrawer.classList.add("is-open");
+    }
+    function closeBag() {
+      bagBackdrop.classList.remove("is-open");
+      bagDrawer.classList.remove("is-open");
+    }
+
+    document.getElementById("addBagBtn").addEventListener("click", () => {
+      const existing = bag.find((x) => x.id === activeId);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        bag.push({ id: activeId, qty });
+      }
+      saveBag();
+      showToast(`Added ${qty} × ${catalog[activeId].name} to bag`);
+      openBag();
+    });
+
+    document.getElementById("openBagBtn").addEventListener("click", openBag);
+    document.getElementById("closeBagBtn").addEventListener("click", closeBag);
+    bagBackdrop.addEventListener("click", closeBag);
+
+    document.getElementById("checkoutBtn").addEventListener("click", () => {
+      if (!bag.length) return;
+      showToast("Concierge order request sent to info@rizzexp0.com");
+      closeBag();
+    });
+
+    document.getElementById("prevWatchBtn").addEventListener("click", () => {
+      const prev = (activeId - 1 + catalog.length) % catalog.length;
+      history.replaceState(null, "", `?id=${prev}`);
+      renderWatch(prev);
+    });
+    document.getElementById("nextWatchBtn").addEventListener("click", () => {
+      const next = (activeId + 1) % catalog.length;
+      history.replaceState(null, "", `?id=${next}`);
+      renderWatch(next);
+    });
+
+    renderWatch(activeId);
+    renderBag();
+
+    // Footer newsletter
+    const nlForm = document.getElementById("footerNewsletter");
+    const nlEmail = document.getElementById("newsletterEmail");
+    if (nlForm && nlEmail) {
+      nlForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!nlEmail.value.trim()) return;
+        showToast("Subscribed to RizzExp0 Private Releases");
+        nlEmail.value = "";
+      });
+    }
+
+    // Scroll-replay observer for Related Collection cards
+    const relatedSec = document.querySelector(".related-section");
+    if (relatedSec) {
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            relatedSec.classList.toggle("is-visible", entry.isIntersecting);
+          });
+        },
+        { threshold: 0.1 }
+      ).observe(relatedSec);
+    }
+
+    // Matter.js Gravity Footer (re-drops EVERY TIME you scroll into footer!)
+    (function initPdpGravityFooter() {
+      const arena = document.getElementById("shapeArena");
+      const layer = document.getElementById("shapesLayer");
+      const redropBtn = document.getElementById("redropShapesBtn");
+      if (!arena || !layer || !window.Matter) return;
+
+      const shapeSpecs = [
+        { label: "Swiss Caliber", tone: "tone-dark", h: 56, padX: 26, fs: 15 },
+        { label: "18k Rose Gold", tone: "tone-white", h: 56, padX: 24, fs: 15 },
+        { label: "", tone: "tone-amber", circle: 62 },
+        { label: "Sapphire Crystal", tone: "tone-dark", h: 58, padX: 28, fs: 15 },
+        { label: "72h Reserve", tone: "tone-charcoal", h: 54, padX: 24, fs: 15 },
+        { label: "", tone: "tone-white", circle: 58 },
+        { label: "Fluted Bezel", tone: "tone-white", h: 54, padX: 24, fs: 15 },
+        { label: "Sovereign", tone: "tone-accent", h: 56, padX: 24, fs: 15 },
+        { label: "", tone: "tone-dark", circle: 68 },
+        { label: "Midnight Blue", tone: "tone-dark", h: 56, padX: 26, fs: 15 },
+        { label: "Tri-Compax", tone: "tone-amber", h: 54, padX: 22, fs: 15 },
+        { label: "", tone: "tone-accent", circle: 52 },
+        { label: "Verdant Dial", tone: "tone-dark", h: 56, padX: 24, fs: 15 },
+        { label: "Black Ceramic", tone: "tone-white", h: 56, padX: 24, fs: 15 },
+        { label: "", tone: "tone-dark", circle: 60 },
+        { label: "Geneva 1924", tone: "tone-charcoal", h: 54, padX: 22, fs: 15 },
+        { label: "100m Water", tone: "tone-dark", h: 54, padX: 24, fs: 15 },
+        { label: "", tone: "tone-amber", circle: 54 },
+        { label: "Hand Finished", tone: "tone-white", h: 56, padX: 24, fs: 15 },
+        { label: "Octagonal Case", tone: "tone-dark", h: 56, padX: 26, fs: 15 },
+        { label: "", tone: "tone-white", circle: 48 },
+        { label: "Jubilee Steel", tone: "tone-charcoal", h: 54, padX: 24, fs: 15 },
+        { label: "Chronograph", tone: "tone-accent", h: 56, padX: 24, fs: 15 },
+        { label: "COSC Certified", tone: "tone-dark", h: 56, padX: 24, fs: 15 },
+        { label: "Titanium", tone: "tone-amber", h: 52, padX: 22, fs: 15 },
+        { label: "RizzExp0", tone: "tone-dark", h: 56, padX: 26, fs: 15 }
+      ];
+
+      const { Engine, Bodies, Composite, Constraint, Body, Sleeping } = Matter;
+      let engine = null;
+      let world = null;
+      let walls = [];
+      let items = [];
+      let dragConstraint = null;
+      let draggedItem = null;
+      let rafId = null;
+      let isVisible = false;
+      let hasInit = false;
+      let wasOut = true;
+      let lastTime = 0;
+
+      function wakeAll() {
+        items.forEach((it) => Sleeping.set(it.body, false));
+      }
+
+      function buildWalls(W, H) {
+        if (walls.length) Composite.remove(world, walls);
+        const thick = 140;
+        const wallH = H + 2000;
+        const opts = { isStatic: true, friction: 0.85, restitution: 0.15 };
+        walls = [
+          Bodies.rectangle(W / 2, H + thick / 2, W + thick * 2, thick, opts),
+          Bodies.rectangle(-thick / 2, H - wallH / 2 + thick, thick, wallH, opts),
+          Bodies.rectangle(W + thick / 2, H - wallH / 2 + thick, thick, wallH, opts)
+        ];
+        Composite.add(world, walls);
+      }
+
+      function syncDOM(forceAll = false) {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i];
+          if (!forceAll && it.body.isSleeping && it !== draggedItem) continue;
+          const x = it.body.position.x - it.w / 2;
+          const y = it.body.position.y - it.h / 2;
+          it.el.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${it.body.angle.toFixed(4)}rad)`;
+        }
+      }
+
+      function buildScene() {
+        layer.innerHTML = "";
+        items = [];
+        engine = Engine.create({ enableSleeping: true, positionIterations: 12, velocityIterations: 10 });
+        engine.gravity.y = 1.18;
+        world = engine.world;
+        const rect = arena.getBoundingClientRect();
+        const W = Math.max(rect.width, 320);
+        const H = Math.max(rect.height, 280);
+        buildWalls(W, H);
+        const maxArea = W * H * 0.58;
+        let used = 0;
+
+        shapeSpecs.forEach((spec, idx) => {
+          const el = document.createElement("div");
+          el.className = `gravity-shape ${spec.tone}`;
+          el.textContent = spec.label;
+          if (spec.circle) {
+            el.style.width = `${spec.circle}px`;
+            el.style.height = `${spec.circle}px`;
+          } else {
+            el.style.height = `${spec.h}px`;
+            el.style.padding = `0 ${spec.padX}px`;
+            el.style.fontSize = `${spec.fs}px`;
+          }
+          layer.appendChild(el);
+          const m = el.getBoundingClientRect();
+          const w = Math.max(m.width, spec.circle || spec.h);
+          const h = Math.max(m.height, spec.circle || spec.h);
+          if (used + w * h > maxArea && items.length >= 14) { el.remove(); return; }
+          used += w * h;
+
+          const margin = Math.max(w / 2 + 12, 44);
+          const spanX = Math.max(40, W - margin * 2);
+          const sx = margin + ((idx * 167 + Math.random() * 60) % spanX);
+          const sy = -h - 24 - idx * 30;
+          const opts = { restitution: 0.16, friction: 0.72, frictionStatic: 0.95, frictionAir: 0.016, density: 0.0024, sleepThreshold: 26, angle: (Math.random() - 0.5) * 0.55 };
+          const body = spec.circle
+            ? Bodies.circle(sx, sy, w / 2, opts)
+            : Bodies.rectangle(sx, sy, w, h, { ...opts, chamfer: { radius: Math.max(4, Math.floor(h / 2) - 1) } });
+
+          Body.setVelocity(body, { x: (Math.random() - 0.5) * 2.4, y: 1.5 });
+          Composite.add(world, body);
+          const item = { el, body, w, h };
+          items.push(item);
+
+          el.addEventListener("pointerdown", (e) => {
+            e.preventDefault();
+            wakeAll();
+            const aRect = arena.getBoundingClientRect();
+            const px = e.clientX - aRect.left;
+            const py = e.clientY - aRect.top;
+            const dx = px - body.position.x;
+            const dy = py - body.position.y;
+            const cos = Math.cos(-body.angle);
+            const sin = Math.sin(-body.angle);
+            if (dragConstraint) Composite.remove(world, dragConstraint);
+            dragConstraint = Constraint.create({
+              pointA: { x: px, y: py },
+              bodyB: body,
+              pointB: { x: dx * cos - dy * sin, y: dx * sin + dy * cos },
+              stiffness: 0.24,
+              damping: 0.18,
+              length: 0
+            });
+            Composite.add(world, dragConstraint);
+            draggedItem = item;
+            el.classList.add("is-dragging");
+            try { el.setPointerCapture(e.pointerId); } catch (_) {}
+            ensureLoop();
+          });
+        });
+        syncDOM(true);
+      }
+
+      window.addEventListener("pointermove", (e) => {
+        if (!dragConstraint || !draggedItem) return;
+        const aRect = arena.getBoundingClientRect();
+        dragConstraint.pointA.x = Math.max(16, Math.min(aRect.width - 16, e.clientX - aRect.left));
+        dragConstraint.pointA.y = Math.max(-80, Math.min(aRect.height - 16, e.clientY - aRect.top));
+      });
+
+      function releaseDrag() {
+        if (!dragConstraint || !draggedItem) return;
+        Composite.remove(world, dragConstraint);
+        dragConstraint = null;
+        draggedItem.el.classList.remove("is-dragging");
+        draggedItem = null;
+      }
+      window.addEventListener("pointerup", releaseDrag);
+      window.addEventListener("pointercancel", releaseDrag);
+
+      function dropAgain() {
+        if (!engine) { buildScene(); return; }
+        const rect = arena.getBoundingClientRect();
+        const W = Math.max(rect.width, 320);
+        items.forEach((it, idx) => {
+          Sleeping.set(it.body, false);
+          const margin = Math.max(it.w / 2 + 12, 44);
+          const spanX = Math.max(40, W - margin * 2);
+          Body.setPosition(it.body, { x: margin + Math.random() * spanX, y: -it.h - 24 - idx * 30 });
+          Body.setAngle(it.body, (Math.random() - 0.5) * 0.6);
+          Body.setVelocity(it.body, { x: (Math.random() - 0.5) * 2.6, y: 1.8 });
+          Body.setAngularVelocity(it.body, (Math.random() - 0.5) * 0.04);
+        });
+        ensureLoop();
+      }
+
+      if (redropBtn) redropBtn.addEventListener("click", () => { if (!hasInit) { hasInit = true; buildScene(); } else dropAgain(); ensureLoop(); });
+
+      function tick(now) {
+        if (!engine || (!isVisible && !draggedItem)) { rafId = null; lastTime = 0; return; }
+        const dt = lastTime ? Math.min(now - lastTime, 33.33) : 16.667;
+        lastTime = now;
+        Engine.update(engine, dt);
+        syncDOM(false);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function ensureLoop() { if (!rafId && engine) { lastTime = 0; rafId = requestAnimationFrame(tick); } }
+
+      new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              if (!hasInit) { hasInit = true; wasOut = false; buildScene(); }
+              else if (wasOut) { wasOut = false; dropAgain(); }
+              ensureLoop();
+            } else {
+              wasOut = true;
+            }
+          });
+        },
+        { threshold: 0.08 }
+      ).observe(arena);
+    })();
+  </script>
+</body>
+</html>

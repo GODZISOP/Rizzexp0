@@ -1,0 +1,4631 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RIZZEXP0 — Haute Horlogerie</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    :root {
+      --accent: #c5a27d;
+      --accent-rgb: 197, 162, 125;
+      --ink: #f7f4ef;
+      --ink-muted: rgba(247, 244, 239, 0.72);
+      --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-text: cubic-bezier(0.16, 1, 0.3, 1);
+      --slide-ms: 680ms;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    html,
+    body {
+      width: 100%;
+      min-height: 100%;
+      overflow-x: clip;
+      overflow-y: auto;
+      background: #090b10;
+      color: var(--ink);
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Fullscreen Hero Stage */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 620px;
+      overflow: hidden;
+      background: #090b10;
+      user-select: none;
+    }
+
+    /* Watch Background Slides — Pure GPU translate3d side-slide (zero blur, 60fps) */
+    .slides {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+      contain: layout paint;
+      backface-visibility: hidden;
+      transform: translate3d(100%, 0, 0);
+      transition:
+        transform var(--slide-ms) var(--ease-luxe),
+        opacity 480ms ease;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 64% center;
+      display: block;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .slide.is-active {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      z-index: 3;
+      pointer-events: auto;
+      will-change: transform, opacity;
+    }
+
+    .slide.is-exiting-next {
+      opacity: 0.35;
+      transform: translate3d(-100%, 0, 0);
+      z-index: 2;
+      will-change: transform, opacity;
+    }
+
+    .slide.is-exiting-prev {
+      opacity: 0.35;
+      transform: translate3d(100%, 0, 0);
+      z-index: 2;
+      will-change: transform, opacity;
+    }
+
+    .slide.is-prep-next {
+      transition: none !important;
+      opacity: 1;
+      transform: translate3d(100%, 0, 0);
+      z-index: 3;
+    }
+
+    .slide.is-prep-prev {
+      transition: none !important;
+      opacity: 1;
+      transform: translate3d(-100%, 0, 0);
+      z-index: 3;
+    }
+
+    /* Subtle static left legibility scrim */
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+      background: linear-gradient(
+        90deg,
+        rgba(5, 7, 12, 0.52) 0%,
+        rgba(5, 7, 12, 0.18) 42%,
+        transparent 64%
+      );
+    }
+
+    /* Top Minimal Navbar */
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px clamp(26px, 5vw, 68px);
+      pointer-events: none;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: clamp(24px, 4vw, 52px);
+      pointer-events: auto;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      color: var(--ink);
+    }
+
+    .brand-mark {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1.5px solid var(--accent);
+      display: grid;
+      place-items: center;
+      transition: border-color 480ms ease;
+    }
+
+    .brand-mark::after {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      transition: background 480ms ease;
+    }
+
+    .brand-name {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.18rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+    }
+
+    .nav-links a {
+      color: var(--ink-muted);
+      text-decoration: none;
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      transition: color 250ms ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      pointer-events: auto;
+    }
+
+    .cart-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(12, 15, 22, 0.78);
+      color: var(--ink);
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 280ms ease, transform 240ms var(--ease-luxe);
+    }
+
+    .cart-pill:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .cart-count {
+      color: var(--accent);
+      font-weight: 600;
+      transition: color 480ms ease;
+    }
+
+    /* Left Hero Content Area */
+    .content-shell {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      padding: 0 clamp(26px, 5vw, 68px);
+      pointer-events: none;
+    }
+
+    .hero-copy {
+      max-width: 500px;
+      pointer-events: auto;
+    }
+
+    .reveal-item {
+      transition:
+        opacity 320ms var(--ease-text),
+        transform 440ms var(--ease-text);
+      will-change: opacity, transform;
+    }
+
+    .hero-copy.is-leaving .reveal-item {
+      opacity: 0;
+      transform: translate3d(-18px, 0, 0);
+    }
+
+    .hero-copy.is-entering .reveal-item {
+      transition: none;
+      opacity: 0;
+      transform: translate3d(22px, 0, 0);
+    }
+
+    .d-1 { transition-delay: 25ms; }
+    .d-2 { transition-delay: 65ms; }
+    .d-3 { transition-delay: 105ms; }
+    .d-4 { transition-delay: 145ms; }
+    .d-5 { transition-delay: 185ms; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.74rem;
+      font-weight: 500;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+      transition: color 480ms ease;
+    }
+
+    .eyebrow-line {
+      width: 28px;
+      height: 1px;
+      background: var(--accent);
+      transition: background 480ms ease;
+    }
+
+    .watch-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.9rem, 5.4vw, 4.9rem);
+      font-weight: 500;
+      line-height: 0.98;
+      letter-spacing: -0.015em;
+      margin-bottom: 14px;
+      color: var(--ink);
+    }
+
+    .watch-title em {
+      display: block;
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+      transition: color 480ms ease;
+    }
+
+    .watch-price {
+      font-size: 1.35rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: rgba(247, 244, 239, 0.94);
+      margin-bottom: 16px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .watch-desc {
+      font-size: 0.95rem;
+      line-height: 1.68;
+      color: var(--ink-muted);
+      margin-bottom: 24px;
+      max-width: 430px;
+    }
+
+    /* Spec Badges */
+    .specs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 32px;
+    }
+
+    .spec-pill {
+      padding: 7px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.36);
+      background: rgba(12, 15, 22, 0.68);
+      font-size: 0.74rem;
+      letter-spacing: 0.06em;
+      color: rgba(247, 244, 239, 0.9);
+      transition: border-color 480ms ease;
+    }
+
+    /* Controls Bar */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-next {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.75);
+      background: rgba(16, 19, 26, 0.82);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition:
+        transform 280ms var(--ease-luxe),
+        border-color 480ms ease,
+        background 280ms ease,
+        box-shadow 320ms ease;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+    }
+
+    .btn-next:hover {
+      transform: translateY(-2px);
+      background: rgba(var(--accent-rgb), 0.24);
+      border-color: var(--accent);
+      box-shadow: 0 14px 32px rgba(var(--accent-rgb), 0.22);
+    }
+
+    .btn-next:active {
+      transform: scale(0.97);
+    }
+
+    .btn-next .arrow {
+      display: inline-flex;
+      transition: transform 280ms var(--ease-luxe);
+    }
+
+    .btn-next:hover .arrow {
+      transform: translateX(5px);
+    }
+
+    .btn-prev {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(14, 17, 24, 0.76);
+      color: var(--ink);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition:
+        transform 260ms var(--ease-luxe),
+        border-color 260ms ease,
+        background 260ms ease;
+    }
+
+    .btn-prev:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.18);
+    }
+
+    .btn-cart {
+      padding: 14px 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(14, 17, 24, 0.76);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition:
+        transform 260ms var(--ease-luxe),
+        border-color 280ms ease,
+        background 280ms ease;
+    }
+
+    .btn-cart:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.16);
+    }
+
+    /* Right-side Next Watch Preview Card */
+    .next-preview {
+      position: absolute;
+      right: clamp(22px, 3.8vw, 54px);
+      top: 50%;
+      transform: translate3d(0, -50%, 0);
+      z-index: 12;
+      width: 112px;
+      padding: 10px 10px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(var(--accent-rgb), 0.38);
+      background: rgba(12, 15, 22, 0.84);
+      cursor: pointer;
+      text-align: center;
+      transition:
+        transform 300ms var(--ease-luxe),
+        border-color 480ms ease,
+        box-shadow 300ms ease;
+    }
+
+    .next-preview:hover {
+      transform: translate3d(0, calc(-50% - 4px), 0);
+      border-color: var(--accent);
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.48);
+    }
+
+    .next-preview-thumb {
+      width: 100%;
+      height: 86px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .next-preview-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 67% center;
+      transform: scale(1.22);
+      transition: transform 400ms var(--ease-luxe);
+      display: block;
+    }
+
+    .next-preview:hover .next-preview-thumb img {
+      transform: scale(1.3);
+    }
+
+    .next-preview-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 2px;
+      transition: color 480ms ease;
+    }
+
+    .next-preview-name {
+      font-size: 0.72rem;
+      color: var(--ink);
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Bottom Progress & Dots */
+    .bottom-bar {
+      position: absolute;
+      left: clamp(26px, 5vw, 68px);
+      bottom: 30px;
+      z-index: 12;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .counter {
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      color: var(--ink-muted);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .counter strong {
+      color: var(--accent);
+      font-weight: 600;
+      transition: color 480ms ease;
+    }
+
+    .dots {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .dot {
+      width: 24px;
+      height: 3px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.22);
+      cursor: pointer;
+      padding: 0;
+      transition:
+        width 420ms var(--ease-luxe),
+        background 420ms ease;
+    }
+
+    .dot.is-active {
+      width: 52px;
+      background: var(--accent);
+    }
+
+    .hint {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(247, 244, 239, 0.54);
+      text-decoration: none;
+      transition: color 240ms ease;
+    }
+
+    .hint:hover {
+      color: var(--accent);
+    }
+
+    /* ============================================================
+       LUXURY MULTI-COLUMN FOOTER + INTERACTIVE GRAVITY BLOCKS TRAY
+       ============================================================ */
+    .site-footer {
+      position: relative;
+      width: 100%;
+      background:
+        radial-gradient(ellipse 65% 42% at 50% 0%, rgba(var(--accent-rgb), 0.11), transparent 72%),
+        linear-gradient(180deg, #090b10 0%, #0c0f16 55%, #07090d 100%);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.24);
+      overflow: hidden;
+      transition: border-color 480ms ease;
+    }
+
+    /* Subtle architectural grid lines behind footer */
+    .site-footer::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.022) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.022) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, #000 50%, rgba(0, 0, 0, 0.25) 100%);
+      -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0%, #000 50%, rgba(0, 0, 0, 0.25) 100%);
+    }
+
+    /* Top Structured Multi-Column Footer Grid */
+    .footer-grid {
+      position: relative;
+      z-index: 10;
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: clamp(54px, 7vh, 80px) clamp(26px, 5vw, 68px) 44px;
+      display: grid;
+      grid-template-columns: 1.55fr 1fr 1fr 1.15fr;
+      gap: clamp(28px, 4vw, 56px);
+    }
+
+    .footer-brand-blurb {
+      margin-top: 16px;
+      margin-bottom: 22px;
+      max-width: 340px;
+      font-size: 0.88rem;
+      line-height: 1.68;
+      color: var(--ink-muted);
+    }
+
+    .footer-newsletter {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 360px;
+    }
+
+    .footer-newsletter input {
+      flex: 1;
+      min-width: 0;
+      padding: 11px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(14, 17, 24, 0.88);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.82rem;
+      outline: none;
+      transition: border-color 240ms ease;
+    }
+
+    .footer-newsletter input::placeholder {
+      color: rgba(247, 244, 239, 0.38);
+    }
+
+    .footer-newsletter input:focus {
+      border-color: var(--accent);
+    }
+
+    .footer-newsletter button {
+      padding: 11px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent);
+      color: #0b0d12;
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 220ms var(--ease-luxe), opacity 220ms ease, background 420ms ease, border-color 420ms ease;
+    }
+
+    .footer-newsletter button:hover {
+      transform: translateY(-1px);
+      opacity: 0.92;
+    }
+
+    .footer-col-title {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+      transition: color 480ms ease;
+    }
+
+    .footer-col-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+    }
+
+    .footer-col-list a,
+    .footer-col-list button {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: inherit;
+      font-size: 0.86rem;
+      color: rgba(247, 244, 239, 0.72);
+      text-decoration: none;
+      cursor: pointer;
+      text-align: left;
+      transition: color 220ms ease, transform 220ms var(--ease-luxe);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-col-list a:hover,
+    .footer-col-list button:hover {
+      color: var(--ink);
+      transform: translateX(3px);
+    }
+
+    .footer-col-meta {
+      font-size: 0.84rem;
+      line-height: 1.7;
+      color: rgba(247, 244, 239, 0.64);
+      margin-bottom: 16px;
+    }
+
+    .footer-redrop-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.44);
+      background: rgba(16, 19, 27, 0.88);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 280ms ease, background 280ms ease, transform 240ms var(--ease-luxe);
+    }
+
+    .footer-redrop-btn:hover {
+      border-color: var(--accent);
+      background: rgba(var(--accent-rgb), 0.16);
+      transform: translateY(-1px);
+    }
+
+    /* Interactive Physics Blocks Playground Band inside Footer */
+    .shape-arena {
+      position: relative;
+      width: 100%;
+      height: 430px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: #07080b;
+      overflow: hidden;
+      touch-action: pan-y;
+    }
+
+    /* Oversized subtle luxury wordmark behind falling blocks */
+    .footer-watermark {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(4.6rem, 15vw, 13.5rem);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(var(--accent-rgb), 0.055);
+      pointer-events: none;
+      user-select: none;
+      white-space: nowrap;
+      transition: color 480ms ease;
+    }
+
+    /* Physics Shapes Layer */
+    .shapes-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 8;
+      pointer-events: none;
+    }
+
+    .gravity-shape {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+      user-select: none;
+      cursor: grab;
+      pointer-events: auto;
+      touch-action: none;
+      will-change: transform;
+      transition: background-color 450ms ease, border-color 450ms ease, color 450ms ease;
+    }
+
+    .gravity-shape:active,
+    .gravity-shape.is-dragging {
+      cursor: grabbing;
+      z-index: 30;
+    }
+
+    /* High-contrast Kokonut-style pill & circle tones */
+    .gravity-shape.tone-dark {
+      background: #16171c;
+      color: #f4f4f6;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .gravity-shape.tone-white {
+      background: #f4f4f5;
+      color: #111216;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .gravity-shape.tone-accent {
+      background: var(--accent);
+      color: #0d0e12;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+    }
+
+    .gravity-shape.tone-amber {
+      background: #ff6200;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .gravity-shape.tone-charcoal {
+      background: #1f2027;
+      color: #e4e4e7;
+      border: 1px solid rgba(var(--accent-rgb), 0.28);
+    }
+
+    .shape-drag-hint {
+      position: absolute;
+      top: 14px;
+      right: clamp(20px, 4vw, 56px);
+      z-index: 12;
+      font-size: 0.66rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(247, 244, 239, 0.38);
+      pointer-events: none;
+    }
+
+    /* Footer Bottom Legal Strip */
+    .footer-bottom {
+      position: relative;
+      z-index: 14;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #06080c;
+      padding: 20px clamp(26px, 5vw, 68px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-copy {
+      font-size: 0.74rem;
+      color: rgba(247, 244, 239, 0.46);
+      letter-spacing: 0.06em;
+    }
+
+    .footer-legal-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 22px;
+    }
+
+    .footer-legal-links a {
+      color: rgba(247, 244, 239, 0.56);
+      text-decoration: none;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: color 220ms ease;
+    }
+
+    .footer-legal-links a:hover {
+      color: var(--accent);
+    }
+
+    .back-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(16, 19, 27, 0.85);
+      color: var(--ink);
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: border-color 240ms ease, color 240ms ease, transform 240ms var(--ease-luxe);
+    }
+
+    .back-top:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 980px) {
+      .footer-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .shape-arena {
+        height: 300px;
+      }
+
+      .shape-drag-hint {
+        display: none;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Cart Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      right: clamp(22px, 3.8vw, 54px);
+      z-index: 25;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(var(--accent-rgb), 0.52);
+      background: rgba(12, 15, 22, 0.94);
+      color: var(--ink);
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      pointer-events: none;
+      transition: opacity 260ms ease, transform 320ms var(--ease-luxe);
+    }
+
+    .toast.is-visible {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @media (max-width: 1080px) {
+      .next-preview {
+        display: none;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .nav-links,
+      .hint {
+        display: none;
+      }
+
+      .slide img {
+        object-position: 69% center;
+      }
+
+      .hero::before {
+        background: linear-gradient(
+          180deg,
+          rgba(5, 7, 12, 0.3) 0%,
+          rgba(5, 7, 12, 0.68) 52%,
+          rgba(5, 7, 12, 0.92) 100%
+        );
+      }
+
+      .content-shell {
+        align-items: flex-end;
+        padding-bottom: 84px;
+      }
+
+      .watch-desc {
+        display: none;
+      }
+    }
+
+    /* ============================================================
+       SKIPER UI #10 DOUBLE STAIRS REVEAL + EDITORIAL PRODUCT SHOWCASE
+       ============================================================ */
+    .editorial-showcase {
+      position: relative;
+      width: 100%;
+      background: linear-gradient(90deg, #e9e8e5 0%, #f8f7f5 16%, #ffffff 34%, #ffffff 100%);
+      color: #16161a;
+      overflow: hidden;
+    }
+
+    /* Double Stairs Dual-Direction Curtain (Top 6 stairs up + Bottom 6 stairs down) */
+    .double-stairs-curtain {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .double-stairs-curtain.is-blocking {
+      pointer-events: auto;
+    }
+
+    .stairs-half {
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 50%;
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .stairs-half.is-top {
+      top: 0;
+    }
+
+    .stairs-half.is-bottom {
+      bottom: 0;
+    }
+
+    .stair-bar {
+      width: 100%;
+      height: 100%;
+      background: #090b10;
+      border-right: 1px solid rgba(255, 255, 255, 0.045);
+      will-change: transform;
+      transform: scaleY(1);
+      transition: transform 760ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .stairs-half.is-top .stair-bar {
+      transform-origin: top center;
+      border-bottom: 1px solid rgba(var(--accent-rgb), 0.18);
+    }
+
+    .stairs-half.is-bottom .stair-bar {
+      transform-origin: bottom center;
+      border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+    }
+
+    /* Staggered dual-direction reveal delays (top left->right, bottom right->left) */
+    .stairs-half.is-top .stair-bar:nth-child(1) { transition-delay: 40ms; }
+    .stairs-half.is-top .stair-bar:nth-child(2) { transition-delay: 105ms; }
+    .stairs-half.is-top .stair-bar:nth-child(3) { transition-delay: 170ms; }
+    .stairs-half.is-top .stair-bar:nth-child(4) { transition-delay: 235ms; }
+    .stairs-half.is-top .stair-bar:nth-child(5) { transition-delay: 300ms; }
+    .stairs-half.is-top .stair-bar:nth-child(6) { transition-delay: 365ms; }
+
+    .stairs-half.is-bottom .stair-bar:nth-child(6) { transition-delay: 40ms; }
+    .stairs-half.is-bottom .stair-bar:nth-child(5) { transition-delay: 105ms; }
+    .stairs-half.is-bottom .stair-bar:nth-child(4) { transition-delay: 170ms; }
+    .stairs-half.is-bottom .stair-bar:nth-child(3) { transition-delay: 235ms; }
+    .stairs-half.is-bottom .stair-bar:nth-child(2) { transition-delay: 300ms; }
+    .stairs-half.is-bottom .stair-bar:nth-child(1) { transition-delay: 365ms; }
+
+    .double-stairs-curtain.is-open .stair-bar {
+      transform: scaleY(0);
+    }
+
+    .double-stairs-curtain.is-instant .stair-bar {
+      transition: none !important;
+    }
+
+    /* Center monogram badge that fades smoothly as both staircases split open */
+    .stairs-center-badge {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      z-index: 42;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      pointer-events: none;
+      opacity: 1;
+      transition: opacity 320ms ease, transform 420ms var(--ease-luxe);
+    }
+
+    .double-stairs-curtain.is-open .stairs-center-badge {
+      opacity: 0;
+      transform: translate3d(-50%, -50%, 0) scale(0.92);
+    }
+
+    .stairs-badge-label {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: #f7f4ef;
+    }
+
+    .stairs-badge-line {
+      width: 110px;
+      height: 1.5px;
+      background: rgba(255, 255, 255, 0.16);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .stairs-badge-line::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--accent);
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 380ms var(--ease-luxe);
+    }
+
+    .double-stairs-curtain.is-charging .stairs-badge-line::after,
+    .double-stairs-curtain.is-open .stairs-badge-line::after {
+      transform: scaleX(1);
+    }
+
+    /* Subtle Replay Stairs pill in top-right of Showcase */
+    .showcase-toolbar {
+      position: relative;
+      z-index: 12;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 36px clamp(24px, 5vw, 68px) 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .showcase-kicker {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #8a8376;
+    }
+
+    .btn-replay-stairs {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: 999px;
+      border: 1px solid #d7d2c9;
+      background: rgba(255, 255, 255, 0.9);
+      color: #242428;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 220ms ease, background 220ms ease, transform 220ms var(--ease-luxe);
+    }
+
+    .btn-replay-stairs:hover {
+      border-color: #16161a;
+      background: #16161a;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* Editorial Container */
+    .editorial-inner {
+      position: relative;
+      z-index: 6;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: clamp(32px, 5vh, 56px) clamp(24px, 5vw, 68px) clamp(76px, 10vh, 118px);
+    }
+
+    /* Editorial Block 01: Watch Anatomy Callouts + Right Editorial Column */
+    .anatomy-block {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1.18fr 0.82fr;
+      align-items: center;
+      gap: clamp(32px, 5vw, 72px);
+      padding: 28px 0 clamp(72px, 10vh, 118px);
+    }
+
+    .anatomy-bg-num {
+      position: absolute;
+      left: -58px;
+      top: 50%;
+      transform: translateY(-50%) rotate(-90deg);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(6.5rem, 11vw, 10.5rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: #dad4c8;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .anatomy-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      min-height: 560px;
+      padding-left: clamp(100px, 13vw, 165px);
+    }
+
+    .anatomy-watch-wrap {
+      position: relative;
+      width: clamp(295px, 34vw, 440px);
+      z-index: 3;
+      opacity: 0;
+      transform: scale(0.56) translate3d(0, 26px, 0);
+      will-change: transform, opacity;
+      transition:
+        opacity 680ms var(--ease-text) 240ms,
+        transform 880ms var(--ease-luxe) 240ms;
+    }
+
+    .editorial-showcase.is-revealed .anatomy-watch-wrap {
+      opacity: 1;
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+
+    .anatomy-watch-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      mix-blend-mode: multiply;
+      user-select: none;
+    }
+
+    /* Crisp Hairline Pointer Callouts — animate ONE BY ONE after watch scales up */
+    .callout-list {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .callout-item {
+      position: absolute;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .callout-item:nth-child(1) { top: 27%; width: 57%; --line-delay: 900ms; }
+    .callout-item:nth-child(2) { top: 44%; width: 61%; --line-delay: 1180ms; }
+    .callout-item:nth-child(3) { top: 60%; width: 54%; --line-delay: 1460ms; }
+    .callout-item:nth-child(4) { top: 80%; width: 60%; --line-delay: 1740ms; }
+
+    .callout-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid #967758;
+      flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(150, 119, 88, 0.22);
+      opacity: 0;
+      transform: scale(0);
+      will-change: transform, opacity;
+      transition:
+        opacity 220ms ease var(--line-delay),
+        transform 360ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--line-delay);
+    }
+
+    .callout-line {
+      flex: 1;
+      height: 1px;
+      background: #9f9a90;
+      position: relative;
+      transform-origin: right center;
+      transform: scaleX(0);
+      will-change: transform;
+      transition: transform 420ms var(--ease-luxe) calc(var(--line-delay) + 90ms);
+    }
+
+    .callout-label {
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #464440;
+      white-space: nowrap;
+      min-width: 118px;
+      text-align: right;
+      opacity: 0;
+      transform: translate3d(10px, 0, 0);
+      will-change: transform, opacity;
+      transition:
+        opacity 320ms ease calc(var(--line-delay) + 260ms),
+        transform 380ms var(--ease-luxe) calc(var(--line-delay) + 260ms);
+    }
+
+    .editorial-showcase.is-revealed .callout-dot {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .editorial-showcase.is-revealed .callout-line {
+      transform: scaleX(1);
+    }
+
+    .editorial-showcase.is-revealed .callout-label {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .editorial-copy {
+      max-width: 440px;
+    }
+
+    .editorial-heading {
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      color: #c6c2ba;
+      margin-bottom: 22px;
+    }
+
+    /* Eldora UI Word Pull Up Mask & Word */
+    .wpu-clip {
+      display: inline-block;
+      overflow: hidden;
+      vertical-align: top;
+      padding-bottom: 0.08em;
+      margin-bottom: -0.08em;
+    }
+
+    .wpu-word {
+      display: inline-block;
+      color: #c6c2ba;
+      opacity: 0;
+      transform: translate3d(0, 115%, 0) scale(0.86);
+      transform-origin: left bottom;
+      will-change: transform, opacity;
+      transition:
+        transform 660ms var(--ease-luxe) var(--wpu-delay, 0ms),
+        opacity 480ms ease var(--wpu-delay, 0ms),
+        color 260ms ease;
+    }
+
+    .is-words-visible .wpu-word {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    .wpu-word.is-inked {
+      color: #141418;
+    }
+
+    .editorial-text {
+      font-size: 0.94rem;
+      line-height: 1.78;
+      color: #c8c4bc;
+      margin-bottom: 30px;
+    }
+
+    .ink-word {
+      display: inline;
+      color: #c4c0b8;
+      transition: color 240ms ease;
+    }
+
+    .ink-word.is-inked {
+      color: #1c1c21;
+    }
+
+    .editorial-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      padding: 13px 24px;
+      border: 1.5px solid #232327;
+      background: transparent;
+      color: #16161a;
+      font-family: inherit;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      transition:
+        opacity 480ms ease 520ms,
+        transform 540ms var(--ease-luxe) 520ms,
+        background 240ms ease,
+        color 240ms ease;
+    }
+
+    .is-words-visible .editorial-btn {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .editorial-btn:hover {
+      background: #16161a;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+
+    .editorial-btn .eb-arrow {
+      transition: transform 240ms var(--ease-luxe);
+    }
+
+    .editorial-btn:hover .eb-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Editorial Block 02: Floating Angled Watch over Giant Beige Numerals */
+    .floating-block {
+      position: relative;
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      align-items: center;
+      gap: clamp(32px, 5vw, 72px);
+      padding: clamp(36px, 6vh, 64px) 0 clamp(76px, 10vh, 118px);
+      border-top: 1px solid #eceae5;
+    }
+
+    .floating-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 430px;
+    }
+
+    .floating-bg-num {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%) scale(0.9);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(10.5rem, 22vw, 19rem);
+      font-weight: 800;
+      line-height: 0.86;
+      letter-spacing: -0.055em;
+      color: #dad4c6;
+      user-select: none;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 640ms ease 120ms, transform 840ms var(--ease-luxe) 120ms;
+    }
+
+    .floating-block.is-words-visible .floating-bg-num {
+      opacity: 1;
+      transform: translate(-50%, -52%) scale(1);
+    }
+
+    .floating-watch-img {
+      position: relative;
+      z-index: 2;
+      width: clamp(320px, 38vw, 510px);
+      height: auto;
+      display: block;
+      opacity: 0;
+      transform: scale(0.56) translate3d(0, 32px, 0) rotate(8deg);
+      will-change: transform, opacity;
+      transition:
+        opacity 680ms var(--ease-text) 140ms,
+        transform 900ms var(--ease-luxe) 140ms;
+    }
+
+    .floating-block.is-words-visible .floating-watch-img {
+      opacity: 1;
+      transform: scale(1) translate3d(0, 0, 0) rotate(0deg);
+    }
+
+    .floating-block.is-words-visible .floating-stage:hover .floating-watch-img {
+      transition-delay: 0ms;
+      transition-duration: 460ms;
+      transform: scale(1.03) translate3d(0, -10px, 0) rotate(-2deg);
+    }
+
+    /* Block 03: Complete 4-Watch Product Grid */
+    .collection-grid-wrap {
+      padding-top: clamp(48px, 7vh, 72px);
+      border-top: 1px solid #eceae5;
+    }
+
+    .collection-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 36px;
+    }
+
+    .collection-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2rem, 3.6vw, 3.1rem);
+      font-weight: 600;
+      color: #16161a;
+      line-height: 1.05;
+    }
+
+    .collection-sub {
+      font-size: 0.88rem;
+      color: #6b6862;
+      max-width: 380px;
+      line-height: 1.6;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .product-card {
+      background: #f8f7f4;
+      border: 1px solid #eae6de;
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 300ms var(--ease-luxe), border-color 260ms ease, box-shadow 300ms ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      border-color: #c5bcae;
+      box-shadow: 0 20px 38px rgba(18, 16, 12, 0.08);
+    }
+
+    .product-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #0d0f14;
+    }
+
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 67% center;
+      transform: scale(1.16);
+      transition: transform 480ms var(--ease-luxe);
+      display: block;
+    }
+
+    .product-card:hover .product-thumb img {
+      transform: scale(1.24);
+    }
+
+    .product-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(10, 12, 16, 0.78);
+      color: #f4f1ea;
+      font-size: 0.64rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .product-body {
+      padding: 18px 18px 20px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .product-name {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.38rem;
+      font-weight: 600;
+      color: #16161a;
+      margin-bottom: 4px;
+    }
+
+    .product-spec {
+      font-size: 0.76rem;
+      color: #77736b;
+      margin-bottom: 14px;
+    }
+
+    .product-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .product-price {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #16161a;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .product-actions {
+      display: flex;
+      gap: 6px;
+    }
+
+    .p-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #d5d0c6;
+      background: #ffffff;
+      color: #16161a;
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+    }
+
+    .p-btn:hover {
+      background: #16161a;
+      color: #ffffff;
+      border-color: #16161a;
+    }
+
+    .p-btn.is-dark {
+      background: #16161a;
+      color: #ffffff;
+      border-color: #16161a;
+    }
+
+    .p-btn.is-dark:hover {
+      background: #312c26;
+    }
+
+    @media (max-width: 1024px) {
+      .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 860px) {
+      .anatomy-block,
+      .floating-block {
+        grid-template-columns: 1fr;
+        gap: 36px;
+      }
+
+      .anatomy-bg-num {
+        display: none;
+      }
+
+      .anatomy-visual {
+        justify-content: center;
+        padding-left: 0;
+        min-height: 360px;
+      }
+
+      .callout-list {
+        display: none;
+      }
+
+      .floating-block .floating-stage {
+        order: -1;
+        min-height: 320px;
+      }
+
+      .editorial-copy {
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ============================================================
+       INTEGRATED SCROLL-TRAVEL WATCH (BLOCK 01 -> BLOCK 02, ZERO GAP)
+       ============================================================ */
+    .editorial-travel-wrap {
+      position: relative;
+    }
+
+    /* Single smooth watch that travels WITH scroll from Block 01 into Block 02 */
+    .travel-watch-float {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 6;
+      pointer-events: none;
+      will-change: transform;
+      transform-origin: center center;
+    }
+
+    .travel-watch-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transform: scale(0.56) translate3d(0, 26px, 0);
+      transition:
+        opacity 680ms var(--ease-text) 240ms,
+        transform 880ms var(--ease-luxe) 240ms;
+    }
+
+    .editorial-showcase.is-revealed .travel-watch-inner {
+      opacity: 1;
+      transform: scale(1) translate3d(0, 0, 0);
+    }
+
+    .travel-img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      height: auto;
+      transform: translate3d(-50%, -50%, 0);
+      user-select: none;
+      will-change: opacity, transform;
+    }
+
+    .travel-img.is-first {
+      width: 112%;
+    }
+
+    .travel-img.is-second {
+      top: 52%;
+      width: 136%;
+      opacity: 0;
+    }
+
+    /* On desktop, slot images act as pixel-exact invisible layout anchors */
+    @media (min-width: 861px) {
+      .anatomy-watch-wrap {
+        aspect-ratio: 3 / 4;
+      }
+
+      .floating-watch-img {
+        aspect-ratio: 1 / 1;
+      }
+
+      .anatomy-watch-wrap img,
+      .floating-watch-img {
+        opacity: 0 !important;
+        visibility: hidden;
+      }
+
+      .anatomy-block {
+        padding: 16px 0 44px;
+      }
+
+      .floating-block {
+        padding: 36px 0 56px;
+      }
+    }
+
+    /* On mobile, hide floating desktop rig & show normal stacked inline watches */
+    @media (max-width: 860px) {
+      .travel-watch-float {
+        display: none !important;
+      }
+    }
+
+    /* ============================================================
+       SKIPER UI #30 — OLIVER PARALLAX 4-COLUMN GALLERY (60fps GPU)
+       ============================================================ */
+    .oliver-section {
+      position: relative;
+      width: 100%;
+      background: #090b10;
+      color: var(--ink);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.18);
+    }
+
+    .oliver-header {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: clamp(54px, 7vh, 84px) clamp(24px, 5vw, 68px) 32px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .oliver-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      transition: color 480ms ease;
+    }
+
+    .oliver-eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .oliver-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.4rem, 4.6vw, 4rem);
+      font-weight: 500;
+      line-height: 1.02;
+      color: var(--ink);
+    }
+
+    .oliver-title em {
+      font-style: italic;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .oliver-sub {
+      max-width: 380px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--ink-muted);
+    }
+
+    .oliver-stage {
+      position: relative;
+      width: 100%;
+      height: 155vh;
+      min-height: 820px;
+      max-height: 1460px;
+      background: #0b0d13;
+      overflow: hidden;
+      padding: clamp(12px, 1.8vw, 24px);
+      display: flex;
+      gap: clamp(12px, 1.8vw, 24px);
+    }
+
+    .oliver-col {
+      position: relative;
+      flex: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(12px, 1.8vw, 24px);
+      will-change: transform;
+    }
+
+    /* Signature Olivier Larose / Skiper30 initial negative top offsets */
+    .oliver-col:nth-child(1) { top: -32%; }
+    .oliver-col:nth-child(2) { top: -64%; }
+    .oliver-col:nth-child(3) { top: -26%; }
+    .oliver-col:nth-child(4) { top: -54%; }
+
+    .oliver-card {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      min-height: 44vh;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #141720;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .oliver-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.01);
+      transition: transform 640ms var(--ease-luxe);
+    }
+
+    .oliver-card.pos-watch img {
+      object-position: 67% center;
+    }
+
+    .oliver-card:hover img {
+      transform: scale(1.06);
+    }
+
+    .oliver-caption {
+      position: absolute;
+      left: 14px;
+      bottom: 14px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(9, 11, 16, 0.84);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--ink);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+      transition: opacity 260ms ease, transform 320ms var(--ease-luxe);
+      pointer-events: none;
+    }
+
+    .oliver-card:hover .oliver-caption {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    @media (max-width: 900px) {
+      .oliver-stage {
+        height: 125vh;
+        min-height: 680px;
+      }
+
+      .oliver-col:nth-child(3),
+      .oliver-col:nth-child(4) {
+        display: none;
+      }
+
+      .oliver-col:nth-child(1) { top: -22%; }
+      .oliver-col:nth-child(2) { top: -44%; }
+    }
+
+    /* ============================================================
+       ANIMATED FAQS SECTION (SMOOTH ACCORDION + SCROLL STAGGER)
+       ============================================================ */
+    .faqs-section {
+      position: relative;
+      width: 100%;
+      background: #faf9f6;
+      color: #16161a;
+      border-top: 1px solid #e6e2da;
+      padding: clamp(68px, 9vh, 112px) clamp(20px, 5vw, 68px);
+    }
+
+    .faqs-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: clamp(32px, 5vw, 76px);
+      align-items: start;
+    }
+
+    .faqs-sticky {
+      position: sticky;
+      top: 40px;
+    }
+
+    .section-eyebrow-light {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: #8f6b42;
+      margin-bottom: 14px;
+    }
+
+    .section-eyebrow-light::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: #8f6b42;
+    }
+
+    .faqs-title {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: clamp(2.3rem, 4.4vw, 3.8rem);
+      font-weight: 500;
+      line-height: 1.04;
+      color: #16161a;
+      margin-bottom: 16px;
+    }
+
+    .faqs-title em {
+      font-style: italic;
+      color: #8f6b42;
+    }
+
+    .faqs-sub {
+      font-size: 0.92rem;
+      line-height: 1.72;
+      color: #67635b;
+      margin-bottom: 24px;
+      max-width: 390px;
+    }
+
+    .faqs-help-box {
+      padding: 18px 20px;
+      border-radius: 14px;
+      background: #ffffff;
+      border: 1px solid #e6e2da;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .faqs-help-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8c877d;
+    }
+
+    .faqs-help-link {
+      color: #16161a;
+      text-decoration: none;
+      font-size: 0.92rem;
+      font-weight: 600;
+      transition: color 200ms ease;
+    }
+
+    .faqs-help-link:hover {
+      color: #8f6b42;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: #ffffff;
+      border: 1px solid #e6e2da;
+      border-radius: 14px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translate3d(0, 22px, 0);
+      transition:
+        opacity 520ms var(--ease-text) var(--faq-delay, 0ms),
+        transform 620ms var(--ease-luxe) var(--faq-delay, 0ms),
+        border-color 240ms ease,
+        box-shadow 260ms ease;
+    }
+
+    .faqs-section.is-visible .faq-item {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .faq-item.is-open {
+      border-color: #b7a389;
+      box-shadow: 0 14px 30px rgba(20, 18, 14, 0.06);
+    }
+
+    .faq-trigger {
+      width: 100%;
+      padding: 20px 22px;
+      border: none;
+      background: transparent;
+      color: #16161a;
+      font-family: inherit;
+      font-size: 0.98rem;
+      font-weight: 600;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+    }
+
+    .faq-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid #dcd7ce;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      font-size: 1.05rem;
+      line-height: 1;
+      color: #46423c;
+      transition: transform 320ms var(--ease-luxe), background 240ms ease, color 240ms ease, border-color 240ms ease;
+    }
+
+    .faq-item.is-open .faq-icon {
+      transform: rotate(45deg);
+      background: #16161a;
+      border-color: #16161a;
+      color: #ffffff;
+    }
+
+    .faq-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 360ms var(--ease-luxe);
+    }
+
+    .faq-item.is-open .faq-panel {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-panel-inner {
+      overflow: hidden;
+    }
+
+    .faq-answer {
+      padding: 0 22px 22px;
+      font-size: 0.9rem;
+      line-height: 1.74;
+      color: #615d55;
+    }
+
+    /* ============================================================
+       SWISS LUXURY CONTACT SECTION + ELDORA MULTI-DIRECTION SLIDE
+       ============================================================ */
+    .contact-section {
+      position: relative;
+      width: 100%;
+      background:
+        radial-gradient(ellipse 68% 48% at 80% 10%, rgba(var(--accent-rgb), 0.14), transparent 70%),
+        linear-gradient(180deg, #0b0d13 0%, #090b10 100%);
+      color: var(--ink);
+      border-top: 1px solid rgba(var(--accent-rgb), 0.24);
+      padding: clamp(68px, 9vh, 114px) clamp(20px, 5vw, 68px) clamp(56px, 8vh, 88px);
+      overflow: hidden;
+      transition: border-color 480ms ease;
+    }
+
+    .contact-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    .contact-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      transition: color 480ms ease;
+    }
+
+    .contact-eyebrow::before {
+      content: "";
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    /* Eldora UI Multi Direction Slide Text — Left & Right Opposite Slide */
+    .mds-heading {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 0.22em;
+      font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+      font-size: clamp(3.5rem, 10.8vw, 9.2rem);
+      font-weight: 800;
+      line-height: 0.94;
+      letter-spacing: -0.045em;
+      color: var(--ink);
+      margin-bottom: clamp(40px, 6vh, 70px);
+      overflow: hidden;
+    }
+
+    .mds-left,
+    .mds-right {
+      display: inline-block;
+      opacity: 0;
+      will-change: transform, opacity;
+      transition:
+        transform 820ms var(--ease-luxe),
+        opacity 640ms var(--ease-text),
+        color 480ms ease;
+    }
+
+    .mds-left {
+      transform: translate3d(-96px, 0, 0);
+    }
+
+    .mds-right {
+      transform: translate3d(96px, 0, 0);
+      color: var(--accent);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      transition-delay: 80ms;
+    }
+
+    .contact-section.is-visible .mds-left,
+    .contact-section.is-visible .mds-right {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 0.78fr 1.22fr;
+      gap: clamp(32px, 5vw, 84px);
+      align-items: start;
+      margin-bottom: clamp(54px, 7.5vh, 92px);
+    }
+
+    .contact-info-col,
+    .contact-form-card {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0);
+      transition: opacity 580ms var(--ease-text) 160ms, transform 680ms var(--ease-luxe) 160ms;
+    }
+
+    .contact-form-card {
+      transition-delay: 240ms;
+    }
+
+    .contact-section.is-visible .contact-info-col,
+    .contact-section.is-visible .contact-form-card {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    .contact-lead {
+      font-size: 0.94rem;
+      line-height: 1.72;
+      color: var(--ink-muted);
+      margin-bottom: 28px;
+      max-width: 380px;
+    }
+
+    .contact-meta-block {
+      margin-bottom: 22px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+      line-height: 1.68;
+      color: var(--ink-muted);
+    }
+
+    .contact-meta-block strong {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 5px;
+      transition: color 480ms ease;
+    }
+
+    .contact-meta-block a {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .btn-copy-email {
+      margin-top: 6px;
+      padding: 9px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(var(--accent-rgb), 0.5);
+      background: rgba(var(--accent-rgb), 0.12);
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+    }
+
+    .btn-copy-email:hover {
+      background: var(--accent);
+      color: #0b0d12;
+      border-color: var(--accent);
+    }
+
+    .contact-form-group-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 26px;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-field.is-full {
+      grid-column: 1 / -1;
+    }
+
+    .form-field label {
+      font-size: 0.76rem;
+      font-weight: 500;
+      color: rgba(247, 244, 239, 0.68);
+    }
+
+    .form-field input,
+    .form-field select,
+    .form-field textarea {
+      width: 100%;
+      padding: 11px 2px 11px;
+      border: none;
+      border-bottom: 1px solid rgba(247, 244, 239, 0.24);
+      border-radius: 0;
+      background: transparent;
+      color: var(--ink);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 220ms ease;
+    }
+
+    .form-field select option {
+      background: #10131c;
+      color: #f7f4ef;
+    }
+
+    .form-field textarea {
+      min-height: 82px;
+      resize: vertical;
+    }
+
+    .form-field input:focus,
+    .form-field select:focus,
+    .form-field textarea:focus {
+      border-bottom-color: var(--accent);
+    }
+
+    .form-optin {
+      grid-column: 1 / -1;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: rgba(247, 244, 239, 0.68);
+      cursor: pointer;
+      margin-top: -4px;
+    }
+
+    .form-optin input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .btn-contact-submit {
+      margin-top: 26px;
+      padding: 13px 32px;
+      border-radius: 999px;
+      border: 1.5px solid var(--accent);
+      background: var(--accent);
+      color: #0b0d12;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: transform 240ms var(--ease-luxe), opacity 220ms ease, background 420ms ease, border-color 420ms ease;
+    }
+
+    .btn-contact-submit:hover {
+      opacity: 0.92;
+      transform: translateY(-2px);
+    }
+
+    .contact-success {
+      margin-top: 14px;
+      font-size: 0.84rem;
+      font-weight: 500;
+      color: #a6dbb2;
+      display: none;
+    }
+
+    .contact-success.is-shown {
+      display: block;
+    }
+
+    /* Bold Editorial Contact Strip at Bottom (Dark Theme Synced) */
+    .contact-big-strip {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 18px 32px;
+      padding-top: 30px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+    }
+
+    .contact-big-link {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(1.45rem, 3.4vw, 2.95rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 220ms ease, transform 780ms var(--ease-luxe), opacity 620ms ease;
+    }
+
+    .contact-big-link:hover {
+      color: var(--accent);
+    }
+
+    .contact-big-link.mds-left {
+      transform: translate3d(-60px, 0, 0);
+      transition-delay: 200ms;
+    }
+
+    .contact-big-link.mds-right {
+      transform: translate3d(60px, 0, 0);
+      color: var(--accent);
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-style: italic;
+      font-weight: 500;
+      transition-delay: 260ms;
+    }
+
+    .contact-section.is-visible .contact-big-link.mds-left,
+    .contact-section.is-visible .contact-big-link.mds-right {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+
+    /* ============================================================
+       MOBILE MENU DRAWER + FULL-SITE RESPONSIVE POLISH
+       ============================================================ */
+    .mobile-menu-btn {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(12, 15, 22, 0.82);
+      color: var(--ink);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .mobile-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 70;
+      background: rgba(5, 7, 12, 0.65);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 260ms ease;
+    }
+
+    .mobile-drawer-backdrop.is-open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(320px, 86vw);
+      z-index: 75;
+      background: #0c0e14;
+      border-left: 1px solid rgba(var(--accent-rgb), 0.24);
+      padding: 26px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transform: translate3d(100%, 0, 0);
+      transition: transform 340ms var(--ease-luxe);
+    }
+
+    .mobile-drawer.is-open {
+      transform: translate3d(0, 0, 0);
+    }
+
+    .mobile-drawer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 18px;
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .mobile-drawer-close {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: transparent;
+      color: var(--ink);
+      font-size: 1.3rem;
+      cursor: pointer;
+    }
+
+    .mobile-drawer a {
+      padding: 13px 4px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      color: var(--ink);
+      text-decoration: none;
+      font-family: "Cormorant Garamond", serif;
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    .mobile-drawer a:hover {
+      color: var(--accent);
+    }
+
+    /* Mobile anatomy spec pills (clean replacement when wide pointer lines hide) */
+    .mobile-anatomy-pills {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 18px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .mobile-anatomy-pill {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #dcd7ce;
+      background: #ffffff;
+      color: #3f3c37;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .btn-details-hero {
+      padding: 14px 20px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: transparent;
+      color: var(--ink);
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      transition: border-color 240ms ease, color 240ms ease, transform 240ms var(--ease-luxe);
+    }
+
+    .btn-details-hero:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 960px) {
+      .faqs-inner,
+      .contact-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .faqs-sticky {
+        position: static;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .mobile-menu-btn {
+        display: inline-flex;
+      }
+
+      .anatomy-visual {
+        flex-direction: column;
+      }
+
+      .mobile-anatomy-pills {
+        display: grid;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar {
+        padding: 20px 18px;
+      }
+
+      .content-shell {
+        padding: 0 18px 82px;
+      }
+
+      .watch-title {
+        font-size: 2.55rem;
+      }
+
+      .specs {
+        margin-bottom: 20px;
+      }
+
+      .controls {
+        gap: 9px;
+      }
+
+      .btn-next {
+        padding: 12px 20px;
+        font-size: 0.74rem;
+      }
+
+      .btn-cart,
+      .btn-details-hero {
+        padding: 12px 16px;
+        font-size: 0.72rem;
+      }
+
+      .bottom-bar {
+        left: 18px;
+        bottom: 20px;
+      }
+
+      .contact-cards,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .faq-trigger {
+        padding: 17px 16px;
+        font-size: 0.92rem;
+      }
+
+      .faq-answer {
+        padding: 0 16px 18px;
+      }
+
+      .showcase-toolbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .slide,
+      .reveal-item,
+      .stair-bar,
+      .callout-item,
+      .editorial-copy,
+      .faq-item,
+      .contact-info-col,
+      .contact-form-card {
+        transition-duration: 160ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="hero" id="hero">
+    <!-- Background Watch Slides -->
+    <div class="slides" id="slides"></div>
+
+    <!-- Top Navigation -->
+    <header class="topbar">
+      <div class="nav-left">
+        <a href="#" class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">RizzExp0</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary Navigation">
+          <a href="#collection">Collection</a>
+          <a href="#oliverGallery">Gallery</a>
+          <a href="#faqs">FAQs</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+      <div class="nav-right">
+        <button class="cart-pill" id="cartPill" type="button">
+          <span>Cart</span>
+          <span class="cart-count" id="cartCount">(0)</span>
+        </button>
+        <button class="mobile-menu-btn" id="mobileMenuBtn" type="button" aria-label="Open menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Mobile Navigation Drawer -->
+    <div class="mobile-drawer-backdrop" id="mobileDrawerBackdrop"></div>
+    <aside class="mobile-drawer" id="mobileDrawer" aria-label="Mobile Navigation">
+      <div class="mobile-drawer-head">
+        <span class="brand-name">RizzExp0</span>
+        <button class="mobile-drawer-close" id="mobileDrawerClose" type="button" aria-label="Close menu">&times;</button>
+      </div>
+      <a href="#hero" data-close-drawer>Home</a>
+      <a href="#collection" data-close-drawer>Collection</a>
+      <a href="./product.html?id=0" data-close-drawer>Product Details</a>
+      <a href="#oliverGallery" data-close-drawer>Gallery</a>
+      <a href="#faqs" data-close-drawer>FAQs</a>
+      <a href="#contact" data-close-drawer>Contact</a>
+    </aside>
+
+    <!-- Editorial Hero Content -->
+    <section class="content-shell">
+      <div class="hero-copy" id="heroCopy">
+        <div class="eyebrow reveal-item d-1">
+          <span class="eyebrow-line"></span>
+          <span id="watchCollection">Heritage Reserve · No. 01</span>
+        </div>
+
+        <h1 class="watch-title reveal-item d-2" id="watchTitle">
+          Sovereign <em>Espresso</em>
+        </h1>
+
+        <div class="watch-price reveal-item d-3" id="watchPrice">$1,450.00</div>
+
+        <p class="watch-desc reveal-item d-4" id="watchDesc">
+          Brushed and polished warm gold architecture paired with a fluted bezel, three-link bracelet, and rich smoked espresso sunburst dial.
+        </p>
+
+        <div class="specs reveal-item d-5" id="watchSpecs"></div>
+
+        <div class="controls">
+          <button class="btn-prev" id="prevBtn" type="button" aria-label="Previous Watch" title="Previous Watch">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 12H5M12 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button class="btn-next" id="nextBtn" type="button">
+            <span>Next Watch</span>
+            <span class="arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </span>
+          </button>
+
+          <button class="btn-cart" id="addToCartBtn" type="button">
+            Add to Cart
+          </button>
+
+          <a class="btn-details-hero" id="heroDetailsLink" href="./product.html?id=0">
+            Details
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right-side Next Watch Preview Card -->
+    <button class="next-preview" id="nextPreview" type="button" aria-label="Switch to next watch">
+      <div class="next-preview-thumb">
+        <img id="nextPreviewImg" src="./watch-hero-navy-silver.jpg" alt="Next watch preview" />
+      </div>
+      <span class="next-preview-label">Up Next</span>
+      <span class="next-preview-name" id="nextPreviewName">Aether Midnight</span>
+    </button>
+
+    <!-- Bottom Index & Progress -->
+    <div class="bottom-bar">
+      <div class="counter">
+        <strong id="currentNum">01</strong> / <span id="totalNum">04</span>
+      </div>
+      <div class="dots" id="dots"></div>
+      <a class="hint" href="#collection">Use &larr; &rarr; keys &middot; Explore watches &darr;</a>
+    </div>
+  </main>
+
+  <!-- Double Stairs Reveal Transition + Editorial Watch Product Showcase -->
+  <section class="editorial-showcase" id="collection" aria-label="Watch Anatomy and Collection">
+    <!-- Skiper UI #10 Dual-Direction Double Staircase Curtain -->
+    <div class="double-stairs-curtain is-blocking" id="doubleStairsCurtain" aria-hidden="true">
+      <div class="stairs-half is-top">
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+      </div>
+      <div class="stairs-half is-bottom">
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+        <div class="stair-bar"></div>
+      </div>
+      <div class="stairs-center-badge">
+        <span class="stairs-badge-label">RizzExp0 Collection</span>
+        <span class="stairs-badge-line"></span>
+      </div>
+    </div>
+
+    <div class="showcase-toolbar">
+      <span class="showcase-kicker">Precision Anatomy &middot; The Collection</span>
+      <button class="btn-replay-stairs" id="replayStairsBtn" type="button">
+        <span aria-hidden="true">&#8635;</span>
+        <span>Replay Stairs Reveal</span>
+      </button>
+    </div>
+
+    <div class="editorial-inner">
+      <div class="editorial-travel-wrap" id="editorialTravelWrap">
+        <!-- Single Traveling Watch that smoothly glides with scroll from Block 01 -> Block 02 -->
+        <div class="travel-watch-float" id="travelWatchFloat" aria-hidden="true">
+          <div class="travel-watch-inner">
+            <img
+              class="travel-img is-first"
+              id="travelWatchImg1"
+              src="./watch-anatomy-transparent.png"
+              alt=""
+            />
+            <img
+              class="travel-img is-second"
+              id="travelWatchImg2"
+              src="./watch-floating-transparent.png"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <!-- Editorial Block 01: Watch Anatomy Callouts + Right Editorial Column -->
+        <article class="anatomy-block" id="craft">
+          <div class="anatomy-bg-num" aria-hidden="true">01</div>
+
+          <div class="anatomy-visual">
+            <div class="callout-list" aria-hidden="true">
+              <div class="callout-item">
+                <span class="callout-label">18k Fluted Bezel</span>
+                <span class="callout-line"></span>
+                <span class="callout-dot"></span>
+              </div>
+              <div class="callout-item">
+                <span class="callout-label">Espresso Sunburst</span>
+                <span class="callout-line"></span>
+                <span class="callout-dot"></span>
+              </div>
+              <div class="callout-item">
+                <span class="callout-label">Brushed Gold Case</span>
+                <span class="callout-line"></span>
+                <span class="callout-dot"></span>
+              </div>
+              <div class="callout-item">
+                <span class="callout-label">President Link Strap</span>
+                <span class="callout-line"></span>
+                <span class="callout-dot"></span>
+              </div>
+            </div>
+
+            <div class="anatomy-watch-wrap" id="slotWatch1">
+              <img
+                src="./watch-anatomy-transparent.png"
+                alt="Sovereign Espresso brushed rose-gold watch anatomy"
+              />
+            </div>
+
+            <div class="mobile-anatomy-pills" aria-label="Watch Anatomy Highlights">
+              <span class="mobile-anatomy-pill">18k Fluted Bezel</span>
+              <span class="mobile-anatomy-pill">Espresso Sunburst</span>
+              <span class="mobile-anatomy-pill">Brushed Gold Case</span>
+              <span class="mobile-anatomy-pill">President Strap</span>
+            </div>
+          </div>
+
+          <div class="editorial-copy" data-scroll-block="craft">
+            <h2 class="editorial-heading" data-word-pullup data-scroll-ink>
+              Time is the vehicle that carries everything into eternity.
+            </h2>
+            <p class="editorial-text" data-scroll-ink>
+              Milled from solid 18k warm rose gold and finished by hand in Geneva, the Sovereign Espresso
+              pairs a diamond-indexed sunburst dial with our 72-hour automatic caliber and precision fluted bezel.
+            </p>
+            <a href="#productsGrid" class="editorial-btn">
+              <span>Learn more</span>
+              <span class="eb-arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Editorial Block 02: Floating Angled Watch over Giant Beige Numerals -->
+        <article class="floating-block" id="boutiques" data-scroll-block="floating">
+          <div class="editorial-copy">
+            <h2 class="editorial-heading" data-word-pullup data-scroll-ink>
+              Man&rsquo;s most prudent counselor is time.
+            </h2>
+            <p class="editorial-text" data-scroll-ink>
+              Engineered in matte black ceramic and brushed dark gunmetal, the Obsidian Chrono balances
+              featherweight stealth ergonomics with a tri-compax chronograph movement and sapphire exhibition back.
+            </p>
+            <button class="editorial-btn" type="button" data-add-watch="3">
+              <span>Add to cart</span>
+              <span class="eb-arrow" aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+
+          <div class="floating-stage">
+            <div class="floating-bg-num" aria-hidden="true">02</div>
+            <img
+              class="floating-watch-img"
+              id="slotWatch2"
+              src="./watch-floating-transparent.png"
+              alt="Obsidian Chrono matte black ceramic watch angled view"
+            />
+          </div>
+        </article>
+      </div>
+
+      <!-- Block 03: Complete 4-Watch Product Grid -->
+      <div class="collection-grid-wrap" id="productsGrid">
+        <div class="collection-header">
+          <div>
+            <span class="showcase-kicker">Signature Editions</span>
+            <h2 class="collection-title">Our Four Timepieces</h2>
+          </div>
+          <p class="collection-sub">
+            Every reference is individually numbered, COSC-regulated, and backed by our 5-year international Geneva warranty.
+          </p>
+        </div>
+
+        <div class="product-grid">
+          <article class="product-card">
+            <a class="product-thumb" href="./product.html?id=0">
+              <img src="./watch-hero-no-text.jpg" alt="Sovereign Espresso" loading="lazy" />
+              <span class="product-tag">No. 01</span>
+            </a>
+            <div class="product-body">
+              <h3 class="product-name"><a href="./product.html?id=0" style="color:inherit;text-decoration:none;">Sovereign Espresso</a></h3>
+              <p class="product-spec">40mm Rose Gold &middot; Fluted Bezel</p>
+              <div class="product-footer">
+                <span class="product-price">$1,450</span>
+                <div class="product-actions">
+                  <a class="p-btn" href="./product.html?id=0" style="text-decoration:none;">Details</a>
+                  <button class="p-btn is-dark" type="button" data-add-watch="0">Add</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a class="product-thumb" href="./product.html?id=1">
+              <img src="./watch-hero-navy-silver.jpg" alt="Aether Midnight" loading="lazy" />
+              <span class="product-tag">No. 02</span>
+            </a>
+            <div class="product-body">
+              <h3 class="product-name"><a href="./product.html?id=1" style="color:inherit;text-decoration:none;">Aether Midnight</a></h3>
+              <p class="product-spec">39mm Steel &middot; Jubilee Bracelet</p>
+              <div class="product-footer">
+                <span class="product-price">$1,290</span>
+                <div class="product-actions">
+                  <a class="p-btn" href="./product.html?id=1" style="text-decoration:none;">Details</a>
+                  <button class="p-btn is-dark" type="button" data-add-watch="1">Add</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a class="product-thumb" href="./product.html?id=2">
+              <img src="./watch-hero-emerald-gold.jpg" alt="Verdant Royal" loading="lazy" />
+              <span class="product-tag">No. 03</span>
+            </a>
+            <div class="product-body">
+              <h3 class="product-name"><a href="./product.html?id=2" style="color:inherit;text-decoration:none;">Verdant Royal</a></h3>
+              <p class="product-spec">41mm Two-Tone &middot; Emerald Dial</p>
+              <div class="product-footer">
+                <span class="product-price">$1,890</span>
+                <div class="product-actions">
+                  <a class="p-btn" href="./product.html?id=2" style="text-decoration:none;">Details</a>
+                  <button class="p-btn is-dark" type="button" data-add-watch="2">Add</button>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="product-card">
+            <a class="product-thumb" href="./product.html?id=3">
+              <img src="./watch-hero-obsidian-black.jpg" alt="Obsidian Chrono" loading="lazy" />
+              <span class="product-tag">No. 04</span>
+            </a>
+            <div class="product-body">
+              <h3 class="product-name"><a href="./product.html?id=3" style="color:inherit;text-decoration:none;">Obsidian Chrono</a></h3>
+              <p class="product-spec">42mm Black Ceramic &middot; Tri-Compax</p>
+              <div class="product-footer">
+                <span class="product-price">$2,150</span>
+                <div class="product-actions">
+                  <a class="p-btn" href="./product.html?id=3" style="text-decoration:none;">Details</a>
+                  <button class="p-btn is-dark" type="button" data-add-watch="3">Add</button>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skiper UI #30 — Oliver Parallax 4-Column Luxury Gallery -->
+  <section class="oliver-section" id="oliverGallery" aria-label="Oliver Parallax Horology Gallery">
+    <div class="oliver-header">
+      <div>
+        <span class="oliver-eyebrow">Atelier Visual Archive</span>
+        <h2 class="oliver-title">Craft in <em>Motion.</em></h2>
+      </div>
+      <p class="oliver-sub">
+        Scroll to experience four independent depth columns — macro Swiss calibers, brushed metals, and architectural wrist studies.
+      </p>
+    </div>
+
+    <div class="oliver-stage" id="oliverStage">
+      <div class="oliver-col" data-parallax-speed="1.15">
+        <figure class="oliver-card">
+          <img src="./gallery-wrist-editorial.jpg" alt="Sovereign Espresso golden hour wrist editorial" loading="lazy" />
+          <figcaption class="oliver-caption">Sovereign &middot; Golden Hour</figcaption>
+        </figure>
+        <figure class="oliver-card pos-watch">
+          <img src="./watch-hero-navy-silver.jpg" alt="Aether Midnight stainless steel dial" loading="lazy" />
+          <figcaption class="oliver-caption">Aether Midnight</figcaption>
+        </figure>
+        <figure class="oliver-card">
+          <img src="./gallery-macro-movement.jpg" alt="In-house mechanical caliber macro" loading="lazy" />
+          <figcaption class="oliver-caption">Caliber V-09 Macro</figcaption>
+        </figure>
+      </div>
+
+      <div class="oliver-col" data-parallax-speed="2.25">
+        <figure class="oliver-card">
+          <img src="./gallery-emerald-macro.jpg" alt="Verdant Royal emerald sunburst macro" loading="lazy" />
+          <figcaption class="oliver-caption">Verdant Sunburst</figcaption>
+        </figure>
+        <figure class="oliver-card">
+          <img src="./gallery-obsidian-slate.jpg" alt="Obsidian Chrono on volcanic slate" loading="lazy" />
+          <figcaption class="oliver-caption">Obsidian Slate</figcaption>
+        </figure>
+        <figure class="oliver-card pos-watch">
+          <img src="./watch-hero-no-text.jpg" alt="Sovereign Espresso champagne gold" loading="lazy" />
+          <figcaption class="oliver-caption">Sovereign Espresso</figcaption>
+        </figure>
+      </div>
+
+      <div class="oliver-col" data-parallax-speed="0.88">
+        <figure class="oliver-card pos-watch">
+          <img src="./watch-hero-emerald-gold.jpg" alt="Verdant Royal two-tone gold and steel" loading="lazy" />
+          <figcaption class="oliver-caption">Verdant Royal</figcaption>
+        </figure>
+        <figure class="oliver-card">
+          <img src="./gallery-macro-movement.jpg" alt="Hand-finished ruby jewels and bridges" loading="lazy" />
+          <figcaption class="oliver-caption">Geneva Bridges</figcaption>
+        </figure>
+        <figure class="oliver-card">
+          <img src="./gallery-wrist-editorial.jpg" alt="Tailored cashmere wrist study" loading="lazy" />
+          <figcaption class="oliver-caption">Atelier Editorial</figcaption>
+        </figure>
+      </div>
+
+      <div class="oliver-col" data-parallax-speed="1.85">
+        <figure class="oliver-card">
+          <img src="./gallery-obsidian-slate.jpg" alt="Matte black ceramic chronograph study" loading="lazy" />
+          <figcaption class="oliver-caption">Stealth Ceramic</figcaption>
+        </figure>
+        <figure class="oliver-card pos-watch">
+          <img src="./watch-hero-obsidian-black.jpg" alt="Obsidian Chrono full showcase" loading="lazy" />
+          <figcaption class="oliver-caption">Obsidian Chrono</figcaption>
+        </figure>
+        <figure class="oliver-card">
+          <img src="./gallery-emerald-macro.jpg" alt="Octagonal brushed gold bezel macro" loading="lazy" />
+          <figcaption class="oliver-caption">Octagonal Bezel</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- Animated FAQs Section -->
+  <section class="faqs-section" id="faqs" aria-label="Frequently Asked Questions">
+    <div class="faqs-inner">
+      <div class="faqs-sticky">
+        <span class="section-eyebrow-light">Horology Support</span>
+        <h2 class="faqs-title">Questions, <em>Answered.</em></h2>
+        <p class="faqs-sub">
+          Everything you need to know about our Geneva calibers, insured worldwide delivery, sizing, and lifetime care.
+        </p>
+        <div class="faqs-help-box">
+          <span class="faqs-help-label">Direct Concierge</span>
+          <a class="faqs-help-link" href="mailto:info@rizzexp0.com">info@rizzexp0.com</a>
+        </div>
+      </div>
+
+      <div class="faq-list" id="faqList">
+        <article class="faq-item is-open" style="--faq-delay: 0ms;">
+          <button class="faq-trigger" type="button" aria-expanded="true">
+            <span>Are all RizzExp0 timepieces Swiss-regulated and numbered?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                Yes. Every reference is individually engraved with its production serial number, tested across five positions in Geneva, and accompanied by a signed COSC chronometer accuracy dossier.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-item" style="--faq-delay: 75ms;">
+          <button class="faq-trigger" type="button" aria-expanded="false">
+            <span>What does the 5-year international Geneva warranty cover?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                Our 5-year international warranty covers the mechanical caliber, power reserve regulation, crown sealing, and manufacturing craftsmanship, plus a complimentary pressure and ultrasonic refresh at year three.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-item" style="--faq-delay: 150ms;">
+          <button class="faq-trigger" type="button" aria-expanded="false">
+            <span>How does worldwide insured delivery work?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                Every watch ships complimentary via armored express courier with full transit insurance and signature verification, typically arriving within 2–4 business days across Europe, the Middle East, North America, and Asia.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-item" style="--faq-delay: 225ms;">
+          <button class="faq-trigger" type="button" aria-expanded="false">
+            <span>Can the bracelet be sized to my wrist before dispatch?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                Absolutely. Share your wrist circumference in millimeters with our concierge at info@rizzexp0.com after ordering, and our watchmakers will custom-size the President, Jubilee, or ceramic H-link bracelet while enclosing all spare links.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-item" style="--faq-delay: 300ms;">
+          <button class="faq-trigger" type="button" aria-expanded="false">
+            <span>Are the watches water-resistant for everyday swimming?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                All four references are pressure-tested to 100 meters (10 ATM) with screw-down crowns and Viton gaskets, making them completely safe for daily wear, rain, and recreational swimming.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-item" style="--faq-delay: 375ms;">
+          <button class="faq-trigger" type="button" aria-expanded="false">
+            <span>Can I book a private viewing or bespoke dial inquiry?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-panel">
+            <div class="faq-panel-inner">
+              <p class="faq-answer">
+                Yes — private salon appointments in Geneva, Dubai, and London (as well as live video viewings) can be arranged directly through the Contact section below or via info@rizzexp0.com.
+              </p>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Swiss Luxury Contact Section + Eldora UI Multi-Direction Slide Text -->
+  <section class="contact-section" id="contact" aria-label="Contact RizzExp0 Concierge">
+    <div class="contact-wrap">
+      <span class="contact-eyebrow">RizzExp0 Private Concierge</span>
+      <h2 class="mds-heading">
+        <span class="mds-left">Contact</span>
+        <span class="mds-right">us</span>
+      </h2>
+
+      <div class="contact-inner">
+        <div class="contact-info-col">
+          <p class="contact-lead">
+            Dedicated horology specialists for numbered allocations, custom bracelet sizing, 5-year Geneva warranty servicing, and private salon viewings.
+          </p>
+
+          <div class="contact-meta-block">
+            <strong>Flagship Salons</strong>
+            Rue du Rh&ocirc;ne 42, 1204 Geneva<br />
+            Dubai Mall &middot; Mayfair London
+          </div>
+
+          <div class="contact-meta-block">
+            <strong>Concierge Hours</strong>
+            Monday &ndash; Saturday &middot; 10:00 AM &ndash; 8:00 PM<br />
+            Average specialist response: under 2 hours
+          </div>
+
+          <div class="contact-meta-block">
+            <strong>Direct Email &amp; Press</strong>
+            <a href="mailto:info@rizzexp0.com">info@rizzexp0.com</a>
+          </div>
+
+          <button class="btn-copy-email" id="copyEmailBtn" type="button">Copy Email</button>
+        </div>
+
+        <div class="contact-form-card">
+          <form id="contactForm">
+            <div class="contact-form-group-title">Private Client Inquiry</div>
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="cFirst">First Name (required)</label>
+                <input type="text" id="cFirst" placeholder="Your first name" required />
+              </div>
+              <div class="form-field">
+                <label for="cLast">Last Name (required)</label>
+                <input type="text" id="cLast" placeholder="Your last name" required />
+              </div>
+
+              <div class="form-field is-full">
+                <label for="cWatch">Timepiece / Concierge Service</label>
+                <select id="cWatch">
+                  <option value="Sovereign Espresso">Sovereign Espresso &mdash; 40mm Rose Gold ($1,450)</option>
+                  <option value="Aether Midnight">Aether Midnight &mdash; 39mm Steel Jubilee ($1,290)</option>
+                  <option value="Verdant Royal">Verdant Royal &mdash; 41mm Two-Tone Emerald ($1,890)</option>
+                  <option value="Obsidian Chrono">Obsidian Chrono &mdash; 42mm Black Ceramic ($2,150)</option>
+                  <option value="Bracelet Sizing & Warranty">Bracelet Sizing / 5-Year Geneva Warranty</option>
+                  <option value="Private Consultation">Private Salon Appointment (Geneva / Dubai / London)</option>
+                </select>
+              </div>
+
+              <div class="form-field is-full">
+                <label for="cEmail">Email Address (required)</label>
+                <input type="email" id="cEmail" placeholder="you@domain.com" required />
+              </div>
+
+              <label class="form-optin">
+                <input type="checkbox" id="cUpdates" />
+                <span>Sign up for private numbered releases and atelier previews</span>
+              </label>
+
+              <div class="form-field is-full">
+                <label for="cMsg">Inquiry Details</label>
+                <textarea id="cMsg" placeholder="Share your preferred reference, wrist circumference in mm, or viewing date..." required></textarea>
+              </div>
+            </div>
+
+            <button class="btn-contact-submit" type="submit">
+              <span>Send Inquiry</span>
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+
+            <p class="contact-success" id="contactSuccess">
+              Thank you &mdash; your private inquiry has been sent to info@rizzexp0.com.
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <div class="contact-big-strip">
+        <a class="contact-big-link mds-left" href="mailto:info@rizzexp0.com">info@rizzexp0.com</a>
+        <a class="contact-big-link mds-right" href="./product.html?id=0">RizzExp0 Atelier &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Structured Luxury Footer + Interactive Gravity Blocks Tray -->
+  <footer class="site-footer" id="footer">
+    <!-- Top Multi-Column Footer Navigation & Newsletter -->
+    <div class="footer-grid">
+      <div>
+        <a href="#hero" class="brand">
+          <span class="brand-mark"></span>
+          <span class="brand-name">RizzExp0</span>
+        </a>
+        <p class="footer-brand-blurb">
+          Independent Geneva horology crafted in brushed 18k gold, stainless steel, and matte ceramic.
+          Private releases &amp; atelier previews delivered directly.
+        </p>
+        <form class="footer-newsletter" id="footerNewsletter">
+          <input
+            type="email"
+            id="newsletterEmail"
+            placeholder="Your email for private drops"
+            aria-label="Email address"
+            required
+          />
+          <button type="submit">Join</button>
+        </form>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">Timepieces</h3>
+        <ul class="footer-col-list">
+          <li><button type="button" data-watch-index="0">Sovereign Espresso</button></li>
+          <li><button type="button" data-watch-index="1">Aether Midnight</button></li>
+          <li><button type="button" data-watch-index="2">Verdant Royal</button></li>
+          <li><button type="button" data-watch-index="3">Obsidian Chrono</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">The Maison</h3>
+        <ul class="footer-col-list">
+          <li><a href="#hero">Geneva Atelier</a></li>
+          <li><a href="#hero">In-House Calibers</a></li>
+          <li><a href="#hero">Materials &amp; Finish</a></li>
+          <li><a href="#hero">Private Appointments</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3 class="footer-col-title">Client Concierge</h3>
+        <p class="footer-col-meta">
+          Rue du Rh&ocirc;ne 42, Geneva<br />
+          Dubai Mall &middot; Mayfair London<br />
+          <a href="mailto:info@rizzexp0.com" style="color: var(--ink); text-decoration: none;">info@rizzexp0.com</a>
+        </p>
+        <button class="footer-redrop-btn" id="redropShapesBtn" type="button">
+          <span aria-hidden="true">&#8635;</span>
+          <span>Drop Blocks Again</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Interactive Kokonut-Style Gravity Blocks Tray -->
+    <div class="shape-arena" id="shapeArena">
+      <div class="footer-watermark" aria-hidden="true">RIZZEXP0</div>
+      <div class="shapes-layer" id="shapesLayer" aria-label="Interactive physics blocks"></div>
+      <span class="shape-drag-hint">Grab &amp; throw the blocks</span>
+    </div>
+
+    <!-- Bottom Legal Strip -->
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; 2026 RizzExp0 Haute Horlogerie. All rights reserved.</span>
+
+      <nav class="footer-legal-links" aria-label="Legal &amp; Social">
+        <a href="#footer">Privacy</a>
+        <a href="#footer">Terms</a>
+        <a href="#footer">5-Year Warranty</a>
+        <a href="#footer">Instagram</a>
+      </nav>
+
+      <a class="back-top" href="#hero" aria-label="Back to top">
+        <span>Top</span>
+        <span aria-hidden="true">&uarr;</span>
+      </a>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Matter.js Rigid-Body Physics (Zero-Jitter Sleeping Piles) -->
+  <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
+  <script>
+    const watches = [
+      {
+        collection: "Heritage Reserve · No. 01",
+        name: "Sovereign Espresso",
+        titleHtml: "Sovereign <em>Espresso</em>",
+        price: "$1,450.00",
+        desc: "Brushed and polished warm gold architecture paired with a fluted bezel, three-link bracelet, and rich smoked espresso sunburst dial.",
+        specs: ["40mm Rose Gold", "Fluted Bezel", "72h Power Reserve"],
+        accent: "#c5a27d",
+        accentRgb: "197, 162, 125",
+        image: "./watch-hero-no-text.jpg"
+      },
+      {
+        collection: "Celestial Edition · No. 02",
+        name: "Aether Midnight",
+        titleHtml: "Aether <em>Midnight</em>",
+        price: "$1,290.00",
+        desc: "Precision-finished stainless steel paired with a five-link Jubilee bracelet, domed bezel, and deep royal sapphire sunburst dial.",
+        specs: ["39mm Stainless Steel", "Sub-Second at 6H", "100m Water Resistance"],
+        accent: "#99abb9",
+        accentRgb: "153, 171, 185",
+        image: "./watch-hero-navy-silver.jpg"
+      },
+      {
+        collection: "Atelier Sport · No. 03",
+        name: "Verdant Royal",
+        titleHtml: "Verdant <em>Royal</em>",
+        price: "$1,890.00",
+        desc: "Sculpted two-tone brushed gold and steel case with an iconic octagonal bezel framing a deep emerald forest sunburst dial.",
+        specs: ["41mm Two-Tone Gold", "Octagonal Bezel", "Sapphire Crystal"],
+        accent: "#8da18f",
+        accentRgb: "141, 161, 143",
+        image: "./watch-hero-emerald-gold.jpg"
+      },
+      {
+        collection: "Stealth Series · No. 04",
+        name: "Obsidian Chrono",
+        titleHtml: "Obsidian <em>Chrono</em>",
+        price: "$2,150.00",
+        desc: "Matte black ceramic and brushed dark gunmetal integrated bracelet engineered with a triple-register stealth chronograph dial.",
+        specs: ["42mm Black Ceramic", "Tri-Compax Chrono", "Titanium Clasp"],
+        accent: "#9ba0a8",
+        accentRgb: "155, 160, 168",
+        image: "./watch-hero-obsidian-black.jpg"
+      }
+    ];
+
+    const slidesContainer = document.getElementById("slides");
+    const dotsContainer = document.getElementById("dots");
+    const heroCopy = document.getElementById("heroCopy");
+    const watchCollection = document.getElementById("watchCollection");
+    const watchTitle = document.getElementById("watchTitle");
+    const watchPrice = document.getElementById("watchPrice");
+    const watchDesc = document.getElementById("watchDesc");
+    const watchSpecs = document.getElementById("watchSpecs");
+    const currentNum = document.getElementById("currentNum");
+    const totalNum = document.getElementById("totalNum");
+    const nextBtn = document.getElementById("nextBtn");
+    const prevBtn = document.getElementById("prevBtn");
+    const addToCartBtn = document.getElementById("addToCartBtn");
+    const cartCountEl = document.getElementById("cartCount");
+    const nextPreview = document.getElementById("nextPreview");
+    const nextPreviewImg = document.getElementById("nextPreviewImg");
+    const nextPreviewName = document.getElementById("nextPreviewName");
+    const heroDetailsLink = document.getElementById("heroDetailsLink");
+    const cartPill = document.getElementById("cartPill");
+    const toast = document.getElementById("toast");
+
+    let currentIndex = 0;
+    let isAnimating = false;
+    let toastTimer = null;
+
+    function getStoredBag() {
+      try {
+        return JSON.parse(localStorage.getItem("rizzexp0_bag") || "[]");
+      } catch (_) {
+        return [];
+      }
+    }
+
+    function addToSharedBag(watchIdx) {
+      const bag = getStoredBag();
+      const existing = bag.find((x) => x.id === watchIdx);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        bag.push({ id: watchIdx, qty: 1 });
+      }
+      localStorage.setItem("rizzexp0_bag", JSON.stringify(bag));
+      syncCartBadge();
+    }
+
+    function syncCartBadge() {
+      const bag = getStoredBag();
+      const totalQty = bag.reduce((sum, item) => sum + (item.qty || 1), 0);
+      cartCountEl.textContent = `(${totalQty})`;
+    }
+
+    syncCartBadge();
+    if (cartPill) {
+      cartPill.addEventListener("click", () => {
+        window.location.href = `./product.html?id=${currentIndex}`;
+      });
+    }
+
+    totalNum.textContent = String(watches.length).padStart(2, "0");
+
+    // Preload & decode all watch images upfront so sliding never stutters
+    watches.forEach((watch, idx) => {
+      const slide = document.createElement("div");
+      slide.className = "slide" + (idx === 0 ? " is-active" : "");
+      const img = document.createElement("img");
+      img.decoding = "async";
+      img.src = watch.image;
+      img.alt = watch.name;
+      if (img.decode) {
+        img.decode().catch(() => {});
+      }
+      slide.appendChild(img);
+      slidesContainer.appendChild(slide);
+
+      const dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "dot" + (idx === 0 ? " is-active" : "");
+      dot.setAttribute("aria-label", `Show ${watch.name}`);
+      dot.addEventListener("click", () => {
+        if (idx !== currentIndex) {
+          goToWatch(idx, idx > currentIndex ? 1 : -1);
+        }
+      });
+      dotsContainer.appendChild(dot);
+    });
+
+    const slideEls = Array.from(document.querySelectorAll(".slide"));
+    const dotEls = Array.from(document.querySelectorAll(".dot"));
+
+    function applyWatchData(watch, index) {
+      document.documentElement.style.setProperty("--accent", watch.accent);
+      document.documentElement.style.setProperty("--accent-rgb", watch.accentRgb);
+
+      watchCollection.textContent = watch.collection;
+      watchTitle.innerHTML = watch.titleHtml;
+      watchPrice.textContent = watch.price;
+      watchDesc.textContent = watch.desc;
+      watchSpecs.innerHTML = watch.specs
+        .map((spec) => `<span class="spec-pill">${spec}</span>`)
+        .join("");
+
+      currentNum.textContent = String(index + 1).padStart(2, "0");
+      dotEls.forEach((d, i) => d.classList.toggle("is-active", i === index));
+
+      const nextIdx = (index + 1) % watches.length;
+      nextPreviewImg.src = watches[nextIdx].image;
+      nextPreviewName.textContent = watches[nextIdx].name;
+      if (heroDetailsLink) {
+        heroDetailsLink.href = `./product.html?id=${index}`;
+      }
+    }
+
+    applyWatchData(watches[0], 0);
+
+    function goToWatch(targetIndex, direction = 1) {
+      if (isAnimating || targetIndex === currentIndex) return;
+      isAnimating = true;
+
+      const outgoing = slideEls[currentIndex];
+      const incoming = slideEls[targetIndex];
+      const exitClass = direction >= 0 ? "is-exiting-next" : "is-exiting-prev";
+      const prepClass = direction >= 0 ? "is-prep-next" : "is-prep-prev";
+
+      incoming.classList.remove("is-active", "is-exiting-next", "is-exiting-prev");
+      incoming.classList.add(prepClass);
+
+      // Double rAF triggers pure GPU transition without forcing sync layout
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          outgoing.classList.remove("is-active");
+          outgoing.classList.add(exitClass);
+
+          incoming.classList.remove(prepClass);
+          incoming.classList.add("is-active");
+        });
+      });
+
+      heroCopy.classList.add("is-leaving");
+
+      setTimeout(() => {
+        applyWatchData(watches[targetIndex], targetIndex);
+        heroCopy.classList.remove("is-leaving");
+        heroCopy.classList.add("is-entering");
+        requestAnimationFrame(() => {
+          heroCopy.classList.remove("is-entering");
+        });
+      }, 220);
+
+      setTimeout(() => {
+        outgoing.classList.remove(exitClass);
+        currentIndex = targetIndex;
+        isAnimating = false;
+      }, 700);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("is-visible");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("is-visible");
+      }, 2400);
+    }
+
+    nextBtn.addEventListener("click", () => {
+      goToWatch((currentIndex + 1) % watches.length, 1);
+    });
+
+    nextPreview.addEventListener("click", () => {
+      goToWatch((currentIndex + 1) % watches.length, 1);
+    });
+
+    prevBtn.addEventListener("click", () => {
+      goToWatch((currentIndex - 1 + watches.length) % watches.length, -1);
+    });
+
+    addToCartBtn.addEventListener("click", () => {
+      addToSharedBag(currentIndex);
+      showToast(`Added ${watches[currentIndex].name} to cart`);
+    });
+
+    // Keyboard navigation
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") {
+        goToWatch((currentIndex + 1) % watches.length, 1);
+      } else if (e.key === "ArrowLeft") {
+        goToWatch((currentIndex - 1 + watches.length) % watches.length, -1);
+      }
+    });
+
+    // Touch swipe support on hero stage only (so footer drag/scroll never conflicts)
+    const heroEl = document.getElementById("hero");
+    let touchStartX = 0;
+    heroEl.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+
+    heroEl.addEventListener("touchend", (e) => {
+      const deltaX = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(deltaX) > 45) {
+        if (deltaX < 0) {
+          goToWatch((currentIndex + 1) % watches.length, 1);
+        } else {
+          goToWatch((currentIndex - 1 + watches.length) % watches.length, -1);
+        }
+      }
+    }, { passive: true });
+
+    // Product Grid & Editorial Add-to-Cart buttons
+    document.querySelectorAll("[data-add-watch]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.getAttribute("data-add-watch"));
+        const watch = watches[idx] || watches[currentIndex];
+        addToSharedBag(Number.isNaN(idx) ? currentIndex : idx);
+        showToast(`Added ${watch.name} (${watch.price}) to cart`);
+      });
+    });
+
+    // Mobile Navigation Drawer Controller
+    (function initMobileNav() {
+      const openBtn = document.getElementById("mobileMenuBtn");
+      const closeBtn = document.getElementById("mobileDrawerClose");
+      const drawer = document.getElementById("mobileDrawer");
+      const backdrop = document.getElementById("mobileDrawerBackdrop");
+      if (!openBtn || !drawer || !backdrop) return;
+
+      function setOpen(state) {
+        drawer.classList.toggle("is-open", state);
+        backdrop.classList.toggle("is-open", state);
+      }
+
+      openBtn.addEventListener("click", () => setOpen(true));
+      if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+      backdrop.addEventListener("click", () => setOpen(false));
+      drawer.querySelectorAll("[data-close-drawer]").forEach((link) => {
+        link.addEventListener("click", () => setOpen(false));
+      });
+    })();
+
+    // Animated FAQs Accordion + Scroll Reveal + Contact Form Controller
+    (function initFaqsAndContact() {
+      const faqsSection = document.getElementById("faqs");
+      const contactSection = document.getElementById("contact");
+
+      const revealObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            } else {
+              entry.target.classList.remove("is-visible");
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+
+      if (faqsSection) revealObs.observe(faqsSection);
+      if (contactSection) revealObs.observe(contactSection);
+
+      const faqItems = Array.from(document.querySelectorAll(".faq-item"));
+      faqItems.forEach((item) => {
+        const trigger = item.querySelector(".faq-trigger");
+        if (!trigger) return;
+        trigger.addEventListener("click", () => {
+          const willOpen = !item.classList.contains("is-open");
+          faqItems.forEach((other) => {
+            other.classList.remove("is-open");
+            const ot = other.querySelector(".faq-trigger");
+            if (ot) ot.setAttribute("aria-expanded", "false");
+          });
+          if (willOpen) {
+            item.classList.add("is-open");
+            trigger.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      const copyBtn = document.getElementById("copyEmailBtn");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText("info@rizzexp0.com").catch(() => {});
+          }
+          copyBtn.textContent = "Copied!";
+          showToast("Copied info@rizzexp0.com");
+          setTimeout(() => { copyBtn.textContent = "Copy Email"; }, 2000);
+        });
+      }
+
+      const contactForm = document.getElementById("contactForm");
+      const contactSuccess = document.getElementById("contactSuccess");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const watchChoice = document.getElementById("cWatch")?.value || "RizzExp0 Timepiece";
+          showToast(`Inquiry sent for ${watchChoice}`);
+          if (contactSuccess) contactSuccess.classList.add("is-shown");
+          contactForm.reset();
+        });
+      }
+    })();
+
+    // Mobile Navigation Drawer Controller
+    (function initMobileNav() {
+      const openBtn = document.getElementById("mobileMenuBtn");
+      const closeBtn = document.getElementById("mobileDrawerClose");
+      const drawer = document.getElementById("mobileDrawer");
+      const backdrop = document.getElementById("mobileDrawerBackdrop");
+      if (!openBtn || !drawer || !backdrop) return;
+
+      function setOpen(state) {
+        drawer.classList.toggle("is-open", state);
+        backdrop.classList.toggle("is-open", state);
+      }
+
+      openBtn.addEventListener("click", () => setOpen(true));
+      if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+      backdrop.addEventListener("click", () => setOpen(false));
+      drawer.querySelectorAll("[data-close-drawer]").forEach((link) => {
+        link.addEventListener("click", () => setOpen(false));
+      });
+    })();
+
+    // Animated FAQs Accordion + Scroll Reveal + Contact Form Controller
+    (function initFaqsAndContact() {
+      const faqsSection = document.getElementById("faqs");
+      const contactSection = document.getElementById("contact");
+
+      const revealObs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+
+      if (faqsSection) revealObs.observe(faqsSection);
+      if (contactSection) revealObs.observe(contactSection);
+
+      const faqItems = Array.from(document.querySelectorAll(".faq-item"));
+      faqItems.forEach((item) => {
+        const trigger = item.querySelector(".faq-trigger");
+        if (!trigger) return;
+        trigger.addEventListener("click", () => {
+          const willOpen = !item.classList.contains("is-open");
+          faqItems.forEach((other) => {
+            other.classList.remove("is-open");
+            const ot = other.querySelector(".faq-trigger");
+            if (ot) ot.setAttribute("aria-expanded", "false");
+          });
+          if (willOpen) {
+            item.classList.add("is-open");
+            trigger.setAttribute("aria-expanded", "true");
+          }
+        });
+      });
+
+      const copyBtn = document.getElementById("copyEmailBtn");
+      if (copyBtn) {
+        copyBtn.addEventListener("click", () => {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText("info@rizzexp0.com").catch(() => {});
+          }
+          copyBtn.textContent = "Copied!";
+          showToast("Copied info@rizzexp0.com");
+          setTimeout(() => { copyBtn.textContent = "Copy Email"; }, 2000);
+        });
+      }
+
+      const contactForm = document.getElementById("contactForm");
+      const contactSuccess = document.getElementById("contactSuccess");
+      if (contactForm) {
+        contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
+          const watchChoice = document.getElementById("cWatch")?.value || "RizzExp0 Timepiece";
+          showToast(`Inquiry sent for ${watchChoice}`);
+          if (contactSuccess) contactSuccess.classList.add("is-shown");
+          contactForm.reset();
+        });
+      }
+    })();
+
+    /* ============================================================
+       SKIPER UI #10 DOUBLE STAIRS REVEAL CONTROLLER (60fps GPU)
+       ============================================================ */
+    (function initDoubleStairs() {
+      const section = document.getElementById("collection");
+      const curtain = document.getElementById("doubleStairsCurtain");
+      const replayBtn = document.getElementById("replayStairsBtn");
+      const navCollectionLink = document.querySelector('a[href="#collection"]');
+      if (!section || !curtain) return;
+
+      let hasPlayed = false;
+      let timerCharge = null;
+      let timerOpen = null;
+      let timerCleanup = null;
+
+      function clearTimers() {
+        clearTimeout(timerCharge);
+        clearTimeout(timerOpen);
+        clearTimeout(timerCleanup);
+      }
+
+      function playDoubleStairs(forceReplay = false) {
+        if (hasPlayed && !forceReplay) return;
+        hasPlayed = true;
+        clearTimers();
+
+        // Reset curtain closed instantaneously & reset anatomy block word pull-up
+        const craftBlock = document.getElementById("craft");
+        section.classList.remove("is-revealed");
+        if (craftBlock) craftBlock.classList.remove("is-words-visible");
+        curtain.classList.add("is-instant", "is-blocking");
+        curtain.classList.remove("is-open", "is-charging");
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            curtain.classList.remove("is-instant");
+            curtain.classList.add("is-charging");
+
+            // Synchronized dual-direction staircase split after brief tension beat
+            timerOpen = setTimeout(() => {
+              curtain.classList.add("is-open");
+              section.classList.add("is-revealed");
+              if (craftBlock) craftBlock.classList.add("is-words-visible");
+            }, 340);
+
+            // Release pointer-events once both staircases finish retracting
+            timerCleanup = setTimeout(() => {
+              curtain.classList.remove("is-blocking");
+            }, 1480);
+          });
+        });
+      }
+
+      // Trigger Double Stairs reveal EVERY TIME user scrolls back down into Showcase
+      let canTrigger = true;
+      const stairsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting && canTrigger) {
+              canTrigger = false;
+              playDoubleStairs(true);
+            } else if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+              // User scrolled back up above #collection -> arm animation for next scroll down
+              canTrigger = true;
+              clearTimers();
+              section.classList.remove("is-revealed");
+              const craftBlock = document.getElementById("craft");
+              if (craftBlock) craftBlock.classList.remove("is-words-visible");
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+      stairsObserver.observe(section);
+
+      if (replayBtn) {
+        replayBtn.addEventListener("click", () => {
+          playDoubleStairs(true);
+        });
+      }
+
+      if (navCollectionLink) {
+        navCollectionLink.addEventListener("click", () => {
+          setTimeout(() => playDoubleStairs(true), 220);
+        });
+      }
+    })();
+
+    /* ============================================================
+       ELDORA UI WORD PULL UP + SCROLL-LINKED GREY-TO-BLACK INK FILL
+       ============================================================ */
+    (function initEditorialTextChoreography() {
+      const scrollGroups = [];
+
+      // 1. Split headings into Eldora UI Word Pull Up masks and body text into scroll-ink words
+      document.querySelectorAll("[data-scroll-block]").forEach((blockEl) => {
+        const allWords = [];
+        const baseDelay = blockEl.getAttribute("data-scroll-block") === "craft" ? 420 : 180;
+
+        blockEl.querySelectorAll("[data-scroll-ink]").forEach((textEl) => {
+          const isPullUp = textEl.hasAttribute("data-word-pullup");
+          const rawWords = textEl.textContent.trim().split(/\s+/);
+          textEl.textContent = "";
+
+          rawWords.forEach((word, idx) => {
+            if (isPullUp) {
+              const clip = document.createElement("span");
+              clip.className = "wpu-clip";
+              const span = document.createElement("span");
+              span.className = "wpu-word";
+              span.style.setProperty("--wpu-delay", `${baseDelay + idx * 58}ms`);
+              span.textContent = word;
+              clip.appendChild(span);
+              textEl.appendChild(clip);
+              allWords.push(span);
+            } else {
+              const span = document.createElement("span");
+              span.className = "ink-word";
+              span.textContent = word;
+              textEl.appendChild(span);
+              allWords.push(span);
+            }
+            if (idx < rawWords.length - 1) {
+              textEl.appendChild(document.createTextNode(" "));
+            }
+          });
+        });
+
+        scrollGroups.push({ el: blockEl, words: allWords });
+      });
+
+      // 2. Observe Block 02 (#boutiques) for Word Pull Up & watch reveal EVERY scroll
+      const floatingBlock = document.getElementById("boutiques");
+      if (floatingBlock) {
+        const floatObs = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              floatingBlock.classList.toggle("is-words-visible", entry.isIntersecting);
+            });
+          },
+          { threshold: 0.14 }
+        );
+        floatObs.observe(floatingBlock);
+      }
+
+      // 3. Smooth scroll-linked Grey -> Deep Black word-by-word illumination (60fps rAF)
+      let scrollRaf = null;
+
+      function updateScrollInk() {
+        scrollRaf = null;
+        const vh = window.innerHeight || 800;
+
+        for (let g = 0; g < scrollGroups.length; g++) {
+          const group = scrollGroups[g];
+          const rect = group.el.getBoundingClientRect();
+          // Progress starts as block enters lower 82% of screen and completes near upper 26%
+          const startY = vh * 0.84;
+          const endY = vh * 0.22;
+          const rawProgress = (startY - rect.top) / Math.max(1, startY - endY);
+          const progress = Math.max(0, Math.min(1, rawProgress));
+          const litCount = Math.floor(progress * (group.words.length + 1));
+
+          for (let i = 0; i < group.words.length; i++) {
+            const shouldInk = i < litCount;
+            const w = group.words[i];
+            if (shouldInk && !w.classList.contains("is-inked")) {
+              w.classList.add("is-inked");
+            } else if (!shouldInk && w.classList.contains("is-inked")) {
+              w.classList.remove("is-inked");
+            }
+          }
+        }
+      }
+
+      function onScroll() {
+        if (!scrollRaf) {
+          scrollRaf = requestAnimationFrame(updateScrollInk);
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      updateScrollInk();
+    })();
+
+    /* ============================================================
+       INTEGRATED SCROLL-TRAVEL WATCH (BLOCK 01 -> BLOCK 02, 60fps)
+       ============================================================ */
+    (function initEditorialWatchTravel() {
+      const wrap = document.getElementById("editorialTravelWrap");
+      const rig = document.getElementById("travelWatchFloat");
+      const slot1 = document.getElementById("slotWatch1");
+      const slot2 = document.getElementById("slotWatch2");
+      const img1 = document.getElementById("travelWatchImg1");
+      const img2 = document.getElementById("travelWatchImg2");
+      if (!wrap || !rig || !slot1 || !slot2 || !img1 || !img2) return;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let anchors = null;
+      let targetP = 0;
+      let currentP = 0;
+      let rafId = null;
+
+      function measureAnchors() {
+        if (window.innerWidth <= 860) {
+          anchors = null;
+          return;
+        }
+        const wRect = wrap.getBoundingClientRect();
+        const r1 = slot1.getBoundingClientRect();
+        const r2 = slot2.getBoundingClientRect();
+        if (r1.width < 20 || r2.width < 20) return;
+
+        anchors = {
+          x1: r1.left - wRect.left + r1.width / 2,
+          y1: r1.top - wRect.top + r1.height / 2,
+          w1: r1.width,
+          h1: r1.height,
+          x2: r2.left - wRect.left + r2.width / 2,
+          y2: r2.top - wRect.top + r2.height / 2,
+          w2: r2.width
+        };
+
+        rig.style.width = `${anchors.w1}px`;
+        rig.style.height = `${anchors.h1}px`;
+      }
+
+      function computeTarget() {
+        if (!anchors) return;
+        const wRect = wrap.getBoundingClientRect();
+        const vh = window.innerHeight || 800;
+        const anchorLine = vh * 0.52;
+        const y1InView = wRect.top + anchors.y1;
+        const y2InView = wRect.top + anchors.y2;
+        const span = Math.max(1, y2InView - y1InView);
+        targetP = Math.max(0, Math.min(1, (anchorLine - y1InView) / span));
+      }
+
+      function renderPose(p) {
+        if (!anchors) return;
+        // Smoothstep horizontal curve so watch glides cleanly from Block 01 -> Block 02
+        const ease = p * p * (3 - 2 * p);
+        const cx = anchors.x1 + (anchors.x2 - anchors.x1) * ease;
+        const cy = anchors.y1 + (anchors.y2 - anchors.y1) * p;
+        const scale = 1 + Math.sin(p * Math.PI) * 0.08;
+        const rot = Math.sin(p * Math.PI) * -12;
+
+        const tx = cx - anchors.w1 / 2;
+        const ty = cy - anchors.h1 / 2;
+        rig.style.transform =
+          `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${scale.toFixed(4)}) rotate(${rot.toFixed(2)}deg)`;
+
+        // Seamless mid-flight cross-morph from Rose-Gold Anatomy Watch -> Floating Obsidian Chrono
+        const morph = Math.max(0, Math.min(1, (p - 0.34) / 0.34));
+        img1.style.opacity = (1 - morph).toFixed(3);
+        img2.style.opacity = morph.toFixed(3);
+      }
+
+      function tick() {
+        if (!anchors) {
+          rafId = null;
+          return;
+        }
+        const diff = targetP - currentP;
+        if (Math.abs(diff) < 0.0006 || reducedMotion) {
+          currentP = targetP;
+          renderPose(currentP);
+          rafId = null;
+          return;
+        }
+        currentP += diff * 0.16;
+        renderPose(currentP);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function onScroll() {
+        if (!anchors) measureAnchors();
+        computeTarget();
+        if (!rafId) {
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+
+      function initSync() {
+        measureAnchors();
+        computeTarget();
+        currentP = targetP;
+        renderPose(currentP);
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", initSync, { passive: true });
+      window.addEventListener("load", initSync);
+      if (typeof ResizeObserver !== "undefined") {
+        new ResizeObserver(initSync).observe(wrap);
+      }
+      img1.addEventListener("load", initSync);
+      img2.addEventListener("load", initSync);
+      setTimeout(initSync, 150);
+      initSync();
+    })();
+
+    /* ============================================================
+       SKIPER UI #30 — OLIVER PARALLAX MULTI-SPEED COLUMNS (60fps)
+       ============================================================ */
+    (function initOliverParallax() {
+      const stage = document.getElementById("oliverStage");
+      if (!stage) return;
+
+      const cols = Array.from(stage.querySelectorAll(".oliver-col"));
+      const speeds = cols.map((c) => Number(c.getAttribute("data-parallax-speed")) || 1);
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      let targetP = 0;
+      let currentP = 0;
+      let rafId = null;
+
+      function computeProgress() {
+        const rect = stage.getBoundingClientRect();
+        const vh = window.innerHeight || 800;
+        const total = vh + rect.height;
+        targetP = Math.max(0, Math.min(1, (vh - rect.top) / Math.max(1, total)));
+      }
+
+      function applyColumns(p) {
+        if (reducedMotion) return;
+        const vh = window.innerHeight || 800;
+        const amplitude = window.innerWidth <= 900 ? vh * 0.28 : vh * 0.42;
+        for (let i = 0; i < cols.length; i++) {
+          const y = p * speeds[i] * amplitude;
+          cols[i].style.transform = `translate3d(0, ${y.toFixed(1)}px, 0)`;
+        }
+      }
+
+      function tick() {
+        const diff = targetP - currentP;
+        if (Math.abs(diff) < 0.0005 || reducedMotion) {
+          currentP = targetP;
+          applyColumns(currentP);
+          rafId = null;
+          return;
+        }
+        currentP += diff * 0.14;
+        applyColumns(currentP);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function onScroll() {
+        computeProgress();
+        if (!rafId) {
+          rafId = requestAnimationFrame(tick);
+        }
+      }
+
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll, { passive: true });
+      computeProgress();
+      currentP = targetP;
+      applyColumns(currentP);
+    })();
+
+    // Footer Timepiece Quick-Switchers + Newsletter Handler
+    document.querySelectorAll("[data-watch-index]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const targetIdx = Number(btn.getAttribute("data-watch-index"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        if (!Number.isNaN(targetIdx) && targetIdx !== currentIndex) {
+          setTimeout(() => {
+            goToWatch(targetIdx, targetIdx > currentIndex ? 1 : -1);
+          }, 260);
+        }
+      });
+    });
+
+    const newsletterForm = document.getElementById("footerNewsletter");
+    const newsletterEmail = document.getElementById("newsletterEmail");
+    if (newsletterForm && newsletterEmail) {
+      newsletterForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (!newsletterEmail.value.trim()) return;
+        showToast("Subscribed to RizzExp0 Private Releases");
+        newsletterEmail.value = "";
+      });
+    }
+
+    /* ============================================================
+       KOKONUT SHAPE-HERO MATTER.JS RIGID-BODY FOOTER (ZERO SHAKE)
+       ============================================================ */
+    (function initShapeFooter() {
+      const arena = document.getElementById("shapeArena");
+      const layer = document.getElementById("shapesLayer");
+      const redropBtn = document.getElementById("redropShapesBtn");
+      if (!arena || !layer) return;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // 30 chunky Kokonut-style pills & solid circles (watch/horology themed)
+      const shapeSpecs = [
+        { id: "p1", label: "Swiss Caliber", tone: "tone-dark", h: 60, padX: 28, fs: 15 },
+        { id: "p2", label: "18k Rose Gold", tone: "tone-white", h: 58, padX: 26, fs: 15 },
+        { id: "c1", label: "", tone: "tone-amber", circle: 68 },
+        { id: "p3", label: "Sapphire Crystal", tone: "tone-dark", h: 62, padX: 30, fs: 15 },
+        { id: "p4", label: "72h Reserve", tone: "tone-charcoal", h: 58, padX: 26, fs: 15 },
+        { id: "c2", label: "", tone: "tone-white", circle: 62 },
+        { id: "p5", label: "Fluted Bezel", tone: "tone-white", h: 56, padX: 26, fs: 15 },
+        { id: "p6", label: "Sovereign", tone: "tone-accent", h: 58, padX: 26, fs: 15 },
+        { id: "c3", label: "", tone: "tone-dark", circle: 76 },
+        { id: "p7", label: "Midnight Blue", tone: "tone-dark", h: 60, padX: 28, fs: 15 },
+        { id: "p8", label: "Tri-Compax", tone: "tone-amber", h: 56, padX: 24, fs: 15 },
+        { id: "c4", label: "", tone: "tone-accent", circle: 54 },
+        { id: "p9", label: "Verdant Dial", tone: "tone-dark", h: 58, padX: 26, fs: 15 },
+        { id: "p10", label: "Black Ceramic", tone: "tone-white", h: 58, padX: 26, fs: 15 },
+        { id: "c5", label: "", tone: "tone-dark", circle: 64 },
+        { id: "p11", label: "Geneva 1924", tone: "tone-charcoal", h: 56, padX: 24, fs: 15 },
+        { id: "p12", label: "100m Water", tone: "tone-dark", h: 58, padX: 26, fs: 15 },
+        { id: "c6", label: "", tone: "tone-amber", circle: 58 },
+        { id: "p13", label: "Hand Finished", tone: "tone-white", h: 58, padX: 26, fs: 15 },
+        { id: "p14", label: "Octagonal Case", tone: "tone-dark", h: 60, padX: 28, fs: 15 },
+        { id: "c7", label: "", tone: "tone-white", circle: 50 },
+        { id: "p15", label: "Jubilee Steel", tone: "tone-charcoal", h: 56, padX: 26, fs: 15 },
+        { id: "p16", label: "Chronograph", tone: "tone-accent", h: 58, padX: 26, fs: 15 },
+        { id: "c8", label: "", tone: "tone-dark", circle: 60 },
+        { id: "p17", label: "COSC Certified", tone: "tone-dark", h: 58, padX: 26, fs: 15 },
+        { id: "p18", label: "Automatic", tone: "tone-white", h: 54, padX: 24, fs: 15 },
+        { id: "p19", label: "Titanium", tone: "tone-amber", h: 54, padX: 24, fs: 15 },
+        { id: "c9", label: "", tone: "tone-charcoal", circle: 56 },
+        { id: "p20", label: "RizzExp0", tone: "tone-dark", h: 58, padX: 28, fs: 15 },
+        { id: "p21", label: "Limited Run", tone: "tone-charcoal", h: 54, padX: 24, fs: 15 }
+      ];
+
+      let engine = null;
+      let world = null;
+      let walls = [];
+      let items = []; // { el, body, w, h }
+      let dragConstraint = null;
+      let draggedItem = null;
+      let rafId = null;
+      let isVisible = false;
+      let hasInitialized = false;
+      let lastTime = 0;
+
+      function wakeAll() {
+        if (!window.Matter) return;
+        for (let i = 0; i < items.length; i++) {
+          Matter.Sleeping.set(items[i].body, false);
+        }
+      }
+
+      function buildWalls(W, H) {
+        const { Bodies, Composite } = Matter;
+        if (walls.length) {
+          Composite.remove(world, walls);
+        }
+        const thick = 140;
+        const wallHeight = H + 2000;
+        const wallOpts = {
+          isStatic: true,
+          friction: 0.85,
+          restitution: 0.15
+        };
+        walls = [
+          // Floor flush with arena bottom
+          Bodies.rectangle(W / 2, H + thick / 2, W + thick * 2, thick, wallOpts),
+          // Left wall
+          Bodies.rectangle(-thick / 2, H - wallHeight / 2 + thick, thick, wallHeight, wallOpts),
+          // Right wall
+          Bodies.rectangle(W + thick / 2, H - wallHeight / 2 + thick, thick, wallHeight, wallOpts)
+        ];
+        Composite.add(world, walls);
+      }
+
+      function syncDOM(forceAll = false) {
+        for (let i = 0; i < items.length; i++) {
+          const it = items[i];
+          if (!forceAll && it.body.isSleeping && it !== draggedItem) continue;
+          const x = it.body.position.x - it.w / 2;
+          const y = it.body.position.y - it.h / 2;
+          it.el.style.transform =
+            `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) rotate(${it.body.angle.toFixed(4)}rad)`;
+        }
+      }
+
+      function buildMatterScene() {
+        if (!window.Matter) {
+          // Graceful static pile fallback if offline
+          layer.innerHTML = "";
+          const rect = arena.getBoundingClientRect();
+          const W = Math.max(rect.width, 320);
+          const H = Math.max(rect.height, 300);
+          let curX = 24;
+          let curY = H - 72;
+          shapeSpecs.slice(0, 18).forEach((spec) => {
+            const el = document.createElement("div");
+            el.className = `gravity-shape ${spec.tone}`;
+            el.textContent = spec.label;
+            if (spec.circle) {
+              el.style.width = `${spec.circle}px`;
+              el.style.height = `${spec.circle}px`;
+            } else {
+              el.style.height = `${spec.h}px`;
+              el.style.padding = `0 ${spec.padX}px`;
+              el.style.fontSize = `${spec.fs}px`;
+            }
+            layer.appendChild(el);
+            const r = el.getBoundingClientRect();
+            if (curX + r.width > W - 20) {
+              curX = 24;
+              curY -= 66;
+            }
+            el.style.transform = `translate3d(${curX}px, ${curY}px, 0)`;
+            curX += r.width + 10;
+          });
+          return;
+        }
+
+        const { Engine, Bodies, Composite, Constraint, Body, Sleeping } = Matter;
+
+        if (engine) {
+          Composite.clear(world, false);
+          Engine.clear(engine);
+        }
+
+        layer.innerHTML = "";
+        items = [];
+        dragConstraint = null;
+        draggedItem = null;
+
+        engine = Engine.create({
+          enableSleeping: true,
+          positionIterations: 12,
+          velocityIterations: 10,
+          constraintIterations: 4
+        });
+        engine.gravity.x = 0;
+        engine.gravity.y = 1.18;
+        world = engine.world;
+
+        const rect = arena.getBoundingClientRect();
+        const W = Math.max(rect.width, 320);
+        const H = Math.max(rect.height, 300);
+        buildWalls(W, H);
+
+        // Fill up to ~55% of arena area so pills & circles pile generously like Kokonut UI
+        const maxArea = W * H * 0.58;
+        let usedArea = 0;
+
+        shapeSpecs.forEach((spec, idx) => {
+          const el = document.createElement("div");
+          el.className = `gravity-shape ${spec.tone}`;
+          el.textContent = spec.label;
+
+          if (spec.circle) {
+            el.style.width = `${spec.circle}px`;
+            el.style.height = `${spec.circle}px`;
+          } else {
+            el.style.height = `${spec.h}px`;
+            el.style.padding = `0 ${spec.padX}px`;
+            el.style.fontSize = `${spec.fs}px`;
+          }
+
+          layer.appendChild(el);
+          const measured = el.getBoundingClientRect();
+          const w = Math.max(measured.width, spec.circle || spec.h);
+          const h = Math.max(measured.height, spec.circle || spec.h);
+
+          if (usedArea + w * h > maxArea && items.length >= 16) {
+            el.remove();
+            return;
+          }
+          usedArea += w * h;
+
+          // Distribute spawn positions across width with staggered drop heights
+          const margin = Math.max(w / 2 + 12, 48);
+          const spanX = Math.max(40, W - margin * 2);
+          const spawnX = margin + ((idx * 173 + Math.random() * 65) % spanX);
+          const spawnY = reducedMotion
+            ? H - h / 2 - 6 - Math.floor(idx / 6) * 62
+            : -h - 24 - idx * 34;
+
+          const bodyOpts = {
+            restitution: 0.16,
+            friction: 0.72,
+            frictionStatic: 0.95,
+            frictionAir: 0.016,
+            density: 0.0024,
+            sleepThreshold: 26,
+            angle: (Math.random() - 0.5) * 0.55
+          };
+
+          const body = spec.circle
+            ? Bodies.circle(spawnX, spawnY, w / 2, bodyOpts)
+            : Bodies.rectangle(spawnX, spawnY, w, h, {
+                ...bodyOpts,
+                chamfer: { radius: Math.max(4, Math.floor(h / 2) - 1) }
+              });
+
+          if (!reducedMotion) {
+            Body.setVelocity(body, { x: (Math.random() - 0.5) * 2.4, y: 1.5 });
+            Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.04);
+          } else {
+            Sleeping.set(body, true);
+          }
+
+          Composite.add(world, body);
+          const item = { el, body, w, h };
+          items.push(item);
+
+          // Direct pointer grab & realistic spring-throw via Matter.Constraint
+          el.addEventListener("pointerdown", (e) => {
+            e.preventDefault();
+            wakeAll();
+            const aRect = arena.getBoundingClientRect();
+            const px = e.clientX - aRect.left;
+            const py = e.clientY - aRect.top;
+
+            // Compute grab offset in body's local coordinates so pill rotates naturally when swung
+            const dx = px - body.position.x;
+            const dy = py - body.position.y;
+            const cos = Math.cos(-body.angle);
+            const sin = Math.sin(-body.angle);
+            const localX = dx * cos - dy * sin;
+            const localY = dx * sin + dy * cos;
+
+            if (dragConstraint) {
+              Composite.remove(world, dragConstraint);
+            }
+
+            dragConstraint = Constraint.create({
+              pointA: { x: px, y: py },
+              bodyB: body,
+              pointB: { x: localX, y: localY },
+              stiffness: 0.24,
+              damping: 0.18,
+              length: 0
+            });
+            Composite.add(world, dragConstraint);
+
+            draggedItem = item;
+            el.classList.add("is-dragging");
+            try {
+              el.setPointerCapture(e.pointerId);
+            } catch (_) {}
+            ensureLoop();
+          });
+        });
+
+        syncDOM(true);
+      }
+
+      window.addEventListener("pointermove", (e) => {
+        if (!dragConstraint || !draggedItem) return;
+        const aRect = arena.getBoundingClientRect();
+        const px = Math.max(16, Math.min(aRect.width - 16, e.clientX - aRect.left));
+        const py = Math.max(-80, Math.min(aRect.height - 16, e.clientY - aRect.top));
+        dragConstraint.pointA.x = px;
+        dragConstraint.pointA.y = py;
+      });
+
+      function releaseDrag() {
+        if (!dragConstraint || !draggedItem) return;
+        const { Composite, Body } = Matter;
+        // Clamp extreme flick speed so blocks stay inside nicely
+        const v = draggedItem.body.velocity;
+        const maxSpeed = 32;
+        const speed = Math.hypot(v.x, v.y);
+        if (speed > maxSpeed) {
+          Body.setVelocity(draggedItem.body, {
+            x: (v.x / speed) * maxSpeed,
+            y: (v.y / speed) * maxSpeed
+          });
+        }
+        Composite.remove(world, dragConstraint);
+        dragConstraint = null;
+        draggedItem.el.classList.remove("is-dragging");
+        draggedItem = null;
+      }
+
+      window.addEventListener("pointerup", releaseDrag);
+      window.addEventListener("pointercancel", releaseDrag);
+
+      function dropAgain() {
+        if (!window.Matter || !engine) {
+          buildMatterScene();
+          return;
+        }
+        const { Body, Sleeping } = Matter;
+        const rect = arena.getBoundingClientRect();
+        const W = Math.max(rect.width, 320);
+
+        items.forEach((it, idx) => {
+          Sleeping.set(it.body, false);
+          const margin = Math.max(it.w / 2 + 12, 48);
+          const spanX = Math.max(40, W - margin * 2);
+          const spawnX = margin + Math.random() * spanX;
+          const spawnY = -it.h - 24 - idx * 32;
+          Body.setPosition(it.body, { x: spawnX, y: spawnY });
+          Body.setAngle(it.body, (Math.random() - 0.5) * 0.65);
+          Body.setVelocity(it.body, { x: (Math.random() - 0.5) * 2.8, y: 1.8 });
+          Body.setAngularVelocity(it.body, (Math.random() - 0.5) * 0.045);
+        });
+
+        ensureLoop();
+      }
+
+      if (redropBtn) {
+        redropBtn.addEventListener("click", () => {
+          if (!hasInitialized) {
+            hasInitialized = true;
+            buildMatterScene();
+          } else {
+            dropAgain();
+          }
+        });
+      }
+
+      function tick(now) {
+        if (!engine || (!isVisible && !draggedItem)) {
+          rafId = null;
+          lastTime = 0;
+          return;
+        }
+
+        const dt = lastTime ? Math.min(now - lastTime, 33.33) : 16.667;
+        lastTime = now;
+
+        Matter.Engine.update(engine, dt);
+        syncDOM(false);
+
+        rafId = requestAnimationFrame(tick);
+      }
+
+      function ensureLoop() {
+        if (reducedMotion || rafId || !engine) return;
+        lastTime = 0;
+        rafId = requestAnimationFrame(tick);
+      }
+
+      // Drop shapes EVERY TIME footer enters viewport; pause automatically when scrolled away
+      let wasOutOfView = true;
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              if (!hasInitialized) {
+                hasInitialized = true;
+                wasOutOfView = false;
+                buildMatterScene();
+              } else if (wasOutOfView) {
+                wasOutOfView = false;
+                dropAgain();
+              }
+              ensureLoop();
+            } else {
+              wasOutOfView = true;
+            }
+          });
+        },
+        { threshold: 0.08 }
+      );
+
+      observer.observe(arena);
+
+      // Rebuild walls & keep shapes inside cleanly on resize
+      let resizeTimer = null;
+      window.addEventListener("resize", () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+          if (!hasInitialized || !engine) return;
+          const rect = arena.getBoundingClientRect();
+          const W = Math.max(rect.width, 320);
+          const H = Math.max(rect.height, 300);
+          buildWalls(W, H);
+          wakeAll();
+          items.forEach((it) => {
+            const clampedX = Math.max(it.w / 2 + 8, Math.min(W - it.w / 2 - 8, it.body.position.x));
+            const clampedY = Math.min(H - it.h / 2 - 6, it.body.position.y);
+            Matter.Body.setPosition(it.body, { x: clampedX, y: clampedY });
+          });
+          syncDOM(true);
+          ensureLoop();
+        }, 200);
+      });
+    })();
+  </script>
+</body>
+</html>
