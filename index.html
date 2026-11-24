@@ -2711,6 +2711,201 @@
       }
     }
 
+    /* ============================================================
+       SKIPER UI #15 — BOX LOADING PRELOADER (RIZZEXP0 LUXURY THEME)
+       ============================================================ */
+    body.is-preloading {
+      overflow: hidden;
+    }
+
+    .box-preloader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        radial-gradient(circle at 50% 48%, rgba(197, 162, 125, 0.14) 0%, rgba(15, 12, 10, 0.96) 54%, #07080b 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      will-change: transform;
+      transform: translate3d(0, 0, 0);
+      transition: transform 980ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+    }
+
+    .box-preloader.is-exiting {
+      transform: translate3d(0, -100%, 0);
+      pointer-events: none;
+    }
+
+    .box-preloader.is-gone {
+      display: none;
+    }
+
+    .preloader-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .preloader-stage {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      transition: transform 620ms var(--ease-luxe), opacity 420ms ease;
+    }
+
+    .box-preloader.is-exiting .preloader-stage {
+      transform: scale(0.92) translate3d(0, -18px, 0);
+      opacity: 0;
+    }
+
+    /* Architectural Luxury Watch Box Frame */
+    .loader-box {
+      position: relative;
+      width: clamp(220px, 28vw, 290px);
+      height: clamp(220px, 28vw, 290px);
+      border: 1px solid rgba(197, 162, 125, 0.34);
+      background: rgba(11, 13, 18, 0.88);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 28px 70px rgba(0, 0, 0, 0.65);
+    }
+
+    /* Precision Gold Corner Brackets */
+    .loader-box::before,
+    .loader-box::after {
+      content: "";
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(197, 162, 125, 0.14);
+      pointer-events: none;
+      z-index: 4;
+    }
+
+    .loader-box::after {
+      inset: 0;
+      border: none;
+      background:
+        linear-gradient(to right, #c5a27d 14px, transparent 14px) 0 0,
+        linear-gradient(to bottom, #c5a27d 14px, transparent 14px) 0 0,
+        linear-gradient(to left, #c5a27d 14px, transparent 14px) 100% 0,
+        linear-gradient(to bottom, #c5a27d 14px, transparent 14px) 100% 0,
+        linear-gradient(to right, #c5a27d 14px, transparent 14px) 0 100%,
+        linear-gradient(to top, #c5a27d 14px, transparent 14px) 0 100%,
+        linear-gradient(to left, #c5a27d 14px, transparent 14px) 100% 100%,
+        linear-gradient(to top, #c5a27d 14px, transparent 14px) 100% 100%;
+      background-repeat: no-repeat;
+      background-size: 16px 2px, 2px 16px;
+    }
+
+    /* Rising Champagne-Gold Fill Bar inside the Box */
+    .loader-box-fill {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, rgba(197, 162, 125, 0.36) 0%, rgba(197, 162, 125, 0.14) 100%);
+      border-top: 2px solid #c5a27d;
+      transform-origin: bottom center;
+      transform: scaleY(0);
+      will-change: transform;
+    }
+
+    /* Inner Rotating Horology Ring */
+    .loader-ring {
+      position: absolute;
+      width: 68%;
+      height: 68%;
+      border-radius: 50%;
+      border: 1px dashed rgba(197, 162, 125, 0.32);
+      z-index: 2;
+      animation: preloaderSpin 9s linear infinite;
+    }
+
+    @keyframes preloaderSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loader-content {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .loader-brand {
+      font-family: "Cormorant Garamond", Georgia, serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: #c5a27d;
+    }
+
+    .loader-pct {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: clamp(2.8rem, 5vw, 3.8rem);
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: #f7f4ef;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .loader-caption {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: rgba(247, 244, 239, 0.56);
+    }
+
+    .loader-status {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(247, 244, 239, 0.62);
+      min-height: 1.2em;
+    }
+
+    .preloader-skip {
+      position: absolute;
+      right: clamp(20px, 4vw, 48px);
+      bottom: 26px;
+      z-index: 6;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(197, 162, 125, 0.3);
+      background: rgba(12, 14, 20, 0.75);
+      color: rgba(247, 244, 239, 0.72);
+      font-family: inherit;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color 220ms ease, color 220ms ease;
+    }
+
+    .preloader-skip:hover {
+      border-color: #c5a27d;
+      color: #f7f4ef;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .slide,
       .reveal-item,
@@ -2719,13 +2914,36 @@
       .editorial-copy,
       .faq-item,
       .contact-info-col,
-      .contact-form-card {
+      .contact-form-card,
+      .box-preloader {
         transition-duration: 160ms !important;
+      }
+
+      .loader-ring {
+        animation: none;
       }
     }
   </style>
 </head>
-<body>
+<body class="is-preloading">
+  <!-- Skiper UI #15 Box Loading Preloader (RizzExp0 Theme) -->
+  <div class="box-preloader" id="sitePreloader" role="status" aria-label="Loading RizzExp0">
+    <canvas class="preloader-canvas" id="preloaderCanvas" aria-hidden="true"></canvas>
+    <div class="preloader-stage">
+      <div class="loader-box">
+        <div class="loader-box-fill" id="loaderBoxFill"></div>
+        <div class="loader-ring" aria-hidden="true"></div>
+        <div class="loader-content">
+          <span class="loader-brand">RizzExp0</span>
+          <span class="loader-pct" id="loaderPct">00%</span>
+          <span class="loader-caption">Geneva Atelier</span>
+        </div>
+      </div>
+      <div class="loader-status" id="loaderStatus">Calibrating Swiss Movement</div>
+    </div>
+    <button class="preloader-skip" id="preloaderSkip" type="button">Skip &rarr;</button>
+  </div>
+
   <main class="hero" id="hero">
     <!-- Background Watch Slides -->
     <div class="slides" id="slides"></div>
@@ -3468,6 +3686,142 @@
   <!-- Matter.js Rigid-Body Physics (Zero-Jitter Sleeping Piles) -->
   <script src="https://cdn.jsdelivr.net/npm/matter-js@0.20.0/build/matter.min.js"></script>
   <script>
+    /* ============================================================
+       SKIPER UI #15 — BOX LOADING PRELOADER WITH INTERACTIVE PARTICLES
+       ============================================================ */
+    (function initBoxPreloader() {
+      const preloader = document.getElementById("sitePreloader");
+      const canvas = document.getElementById("preloaderCanvas");
+      const fillEl = document.getElementById("loaderBoxFill");
+      const pctEl = document.getElementById("loaderPct");
+      const statusEl = document.getElementById("loaderStatus");
+      const skipBtn = document.getElementById("preloaderSkip");
+      if (!preloader || !canvas) return;
+
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const ctx = canvas.getContext("2d");
+      let W = window.innerWidth;
+      let H = window.innerHeight;
+      let dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let rafId = null;
+      let isExiting = false;
+      let mouse = { x: -9999, y: -9999 };
+
+      function resizeCanvas() {
+        W = window.innerWidth;
+        H = window.innerHeight;
+        canvas.width = Math.floor(W * dpr);
+        canvas.height = Math.floor(H * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      resizeCanvas();
+      window.addEventListener("resize", resizeCanvas, { passive: true });
+
+      const onPointerMove = (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      };
+      preloader.addEventListener("pointermove", onPointerMove, { passive: true });
+
+      // 56 interactive champagne-gold & platinum horology particles
+      const particles = Array.from({ length: 56 }, (_, i) => ({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.65,
+        vy: -0.25 - Math.random() * 0.55,
+        size: 1.4 + Math.random() * 2.6,
+        alpha: 0.25 + Math.random() * 0.55,
+        isGold: i % 3 !== 0
+      }));
+
+      const totalDuration = reducedMotion ? 450 : 2150;
+      const startTime = performance.now();
+
+      function finishPreloader() {
+        if (isExiting) return;
+        isExiting = true;
+        if (fillEl) fillEl.style.transform = "scaleY(1)";
+        if (pctEl) pctEl.textContent = "100%";
+        if (statusEl) statusEl.textContent = "RizzExp0 Ready";
+
+        setTimeout(() => {
+          preloader.classList.add("is-exiting");
+          document.body.classList.remove("is-preloading");
+        }, reducedMotion ? 60 : 180);
+
+        setTimeout(() => {
+          if (rafId) cancelAnimationFrame(rafId);
+          rafId = null;
+          window.removeEventListener("resize", resizeCanvas);
+          preloader.removeEventListener("pointermove", onPointerMove);
+          preloader.classList.add("is-gone");
+        }, reducedMotion ? 320 : 1220);
+      }
+
+      if (skipBtn) {
+        skipBtn.addEventListener("click", finishPreloader);
+      }
+
+      function frame(now) {
+        const elapsed = now - startTime;
+        const raw = Math.min(1, elapsed / totalDuration);
+        // Smooth easeOutCubic progress curve
+        const eased = 1 - Math.pow(1 - raw, 3);
+        const pct = Math.min(100, Math.round(eased * 100));
+
+        if (!isExiting) {
+          if (fillEl) fillEl.style.transform = `scaleY(${eased.toFixed(4)})`;
+          if (pctEl) pctEl.textContent = `${String(pct).padStart(2, "0")}%`;
+          if (statusEl) {
+            if (pct < 38) statusEl.textContent = "Calibrating Swiss Movement";
+            else if (pct < 76) statusEl.textContent = "Finishing 18k Rose Gold";
+            else statusEl.textContent = "Entering RizzExp0 Atelier";
+          }
+        }
+
+        // Draw interactive floating particles
+        ctx.clearRect(0, 0, W, H);
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < 15000 && distSq > 1) {
+            const dist = Math.sqrt(distSq);
+            const force = (122 - dist) / 122;
+            p.vx += (dx / dist) * force * 0.42;
+            p.vy += (dy / dist) * force * 0.42;
+          }
+
+          p.vx *= 0.96;
+          p.vy = p.vy * 0.96 - 0.015;
+          p.x += p.vx;
+          p.y += p.vy;
+
+          if (p.y < -12) { p.y = H + 12; p.x = Math.random() * W; }
+          if (p.x < -12) p.x = W + 12;
+          if (p.x > W + 12) p.x = -12;
+
+          ctx.fillStyle = p.isGold
+            ? `rgba(197, 162, 125, ${p.alpha})`
+            : `rgba(247, 244, 239, ${p.alpha * 0.7})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        if (raw >= 1 && !isExiting) {
+          finishPreloader();
+        }
+
+        if (!preloader.classList.contains("is-gone")) {
+          rafId = requestAnimationFrame(frame);
+        }
+      }
+
+      rafId = requestAnimationFrame(frame);
+    })();
+
     const watches = [
       {
         collection: "Heritage Reserve · No. 01",
