@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -1773,6 +1773,26 @@
       opacity: 0;
     }
 
+    .travel-img.is-third {
+      width: 112%;
+      opacity: 0;
+    }
+
+    .floating-block.is-reversed {
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    .floating-block.is-reversed .floating-watch-img {
+      width: clamp(275px, 31vw, 410px);
+    }
+
+    .editorial-btn-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
     /* On desktop, slot images act as pixel-exact invisible layout anchors */
     @media (min-width: 861px) {
       .anatomy-watch-wrap {
@@ -2869,6 +2889,12 @@
               src="./watch-floating-transparent.png"
               alt=""
             />
+            <img
+              class="travel-img is-third"
+              id="travelWatchImg3"
+              src="./pdp-navy-transparent.png"
+              alt=""
+            />
           </div>
         </div>
 
@@ -2954,6 +2980,39 @@
               src="./watch-floating-transparent.png"
               alt="Obsidian Chrono matte black ceramic watch angled view"
             />
+          </div>
+        </article>
+
+        <!-- Editorial Block 03: Blue Aether Midnight Watch over Giant 03 Numerals -->
+        <article class="floating-block is-reversed" id="blueEdition" data-scroll-block="blue">
+          <div class="floating-stage">
+            <div class="floating-bg-num" aria-hidden="true">03</div>
+            <img
+              class="floating-watch-img"
+              id="slotWatch3"
+              src="./pdp-navy-transparent.png"
+              alt="Aether Midnight silver stainless steel and royal blue watch"
+            />
+          </div>
+
+          <div class="editorial-copy">
+            <h2 class="editorial-heading" data-word-pullup data-scroll-ink>
+              Precision measured in midnight silence.
+            </h2>
+            <p class="editorial-text" data-scroll-ink>
+              Machined in 904L brushed stainless steel with a five-link Jubilee bracelet and deep royal sapphire sunburst dial,
+              the Aether Midnight pairs razor-sharp dauphine hands with a recessed small-seconds subdial.
+            </p>
+            <div class="editorial-btn-row">
+              <button class="editorial-btn" type="button" data-add-watch="1">
+                <span>Add to cart</span>
+                <span class="eb-arrow" aria-hidden="true">&rarr;</span>
+              </button>
+              <a class="editorial-btn" href="./product.html?id=1">
+                <span>View details</span>
+                <span class="eb-arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            </div>
           </div>
         </article>
       </div>
@@ -3973,19 +4032,20 @@
         scrollGroups.push({ el: blockEl, words: allWords });
       });
 
-      // 2. Observe Block 02 (#boutiques) for Word Pull Up & watch reveal EVERY scroll
-      const floatingBlock = document.getElementById("boutiques");
-      if (floatingBlock) {
-        const floatObs = new IntersectionObserver(
+      // 2. Observe Block 02 (#boutiques) & Block 03 (#blueEdition) for Word Pull Up & watch reveal EVERY scroll
+      ["boutiques", "blueEdition"].forEach((blockId) => {
+        const blockEl = document.getElementById(blockId);
+        if (!blockEl) return;
+        const blockObs = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
-              floatingBlock.classList.toggle("is-words-visible", entry.isIntersecting);
+              blockEl.classList.toggle("is-words-visible", entry.isIntersecting);
             });
           },
           { threshold: 0.14 }
         );
-        floatObs.observe(floatingBlock);
-      }
+        blockObs.observe(blockEl);
+      });
 
       // 3. Smooth scroll-linked Grey -> Deep Black word-by-word illumination (60fps rAF)
       let scrollRaf = null;
@@ -4028,20 +4088,22 @@
     })();
 
     /* ============================================================
-       INTEGRATED SCROLL-TRAVEL WATCH (BLOCK 01 -> BLOCK 02, 60fps)
+       INTEGRATED SCROLL-TRAVEL WATCH (BLOCK 01 -> 02 -> 03, 60fps)
        ============================================================ */
     (function initEditorialWatchTravel() {
       const wrap = document.getElementById("editorialTravelWrap");
       const rig = document.getElementById("travelWatchFloat");
       const slot1 = document.getElementById("slotWatch1");
       const slot2 = document.getElementById("slotWatch2");
+      const slot3 = document.getElementById("slotWatch3");
       const img1 = document.getElementById("travelWatchImg1");
       const img2 = document.getElementById("travelWatchImg2");
-      if (!wrap || !rig || !slot1 || !slot2 || !img1 || !img2) return;
+      const img3 = document.getElementById("travelWatchImg3");
+      if (!wrap || !rig || !slot1 || !slot2 || !slot3 || !img1 || !img2 || !img3) return;
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       let anchors = null;
-      let targetP = 0;
+      let targetP = 0; // 0 = Block 01, 1 = Block 02, 2 = Block 03
       let currentP = 0;
       let rafId = null;
 
@@ -4053,7 +4115,8 @@
         const wRect = wrap.getBoundingClientRect();
         const r1 = slot1.getBoundingClientRect();
         const r2 = slot2.getBoundingClientRect();
-        if (r1.width < 20 || r2.width < 20) return;
+        const r3 = slot3.getBoundingClientRect();
+        if (r1.width < 20 || r2.width < 20 || r3.width < 20) return;
 
         anchors = {
           x1: r1.left - wRect.left + r1.width / 2,
@@ -4062,7 +4125,8 @@
           h1: r1.height,
           x2: r2.left - wRect.left + r2.width / 2,
           y2: r2.top - wRect.top + r2.height / 2,
-          w2: r2.width
+          x3: r3.left - wRect.left + r3.width / 2,
+          y3: r3.top - wRect.top + r3.height / 2
         };
 
         rig.style.width = `${anchors.w1}px`;
@@ -4076,28 +4140,54 @@
         const anchorLine = vh * 0.52;
         const y1InView = wRect.top + anchors.y1;
         const y2InView = wRect.top + anchors.y2;
-        const span = Math.max(1, y2InView - y1InView);
-        targetP = Math.max(0, Math.min(1, (anchorLine - y1InView) / span));
+        const y3InView = wRect.top + anchors.y3;
+
+        if (anchorLine <= y1InView) {
+          targetP = 0;
+        } else if (anchorLine <= y2InView) {
+          targetP = (anchorLine - y1InView) / Math.max(1, y2InView - y1InView);
+        } else if (anchorLine <= y3InView) {
+          targetP = 1 + (anchorLine - y2InView) / Math.max(1, y3InView - y2InView);
+        } else {
+          targetP = 2;
+        }
       }
 
       function renderPose(p) {
         if (!anchors) return;
-        // Smoothstep horizontal curve so watch glides cleanly from Block 01 -> Block 02
-        const ease = p * p * (3 - 2 * p);
-        const cx = anchors.x1 + (anchors.x2 - anchors.x1) * ease;
-        const cy = anchors.y1 + (anchors.y2 - anchors.y1) * p;
-        const scale = 1 + Math.sin(p * Math.PI) * 0.08;
-        const rot = Math.sin(p * Math.PI) * -12;
+        let cx, cy, scale, rot;
+
+        if (p <= 1) {
+          const ease = p * p * (3 - 2 * p);
+          cx = anchors.x1 + (anchors.x2 - anchors.x1) * ease;
+          cy = anchors.y1 + (anchors.y2 - anchors.y1) * p;
+          scale = 1 + Math.sin(p * Math.PI) * 0.08;
+          rot = Math.sin(p * Math.PI) * -12;
+
+          // Morph Rose-Gold (01) -> Black Ceramic Obsidian Chrono (02)
+          const morph12 = Math.max(0, Math.min(1, (p - 0.34) / 0.34));
+          img1.style.opacity = (1 - morph12).toFixed(3);
+          img2.style.opacity = morph12.toFixed(3);
+          img3.style.opacity = "0";
+        } else {
+          const t = p - 1; // 0 -> 1 from Block 02 to Block 03
+          const ease = t * t * (3 - 2 * t);
+          cx = anchors.x2 + (anchors.x3 - anchors.x2) * ease;
+          cy = anchors.y2 + (anchors.y3 - anchors.y2) * t;
+          scale = 1 + Math.sin(t * Math.PI) * 0.08;
+          rot = Math.sin(t * Math.PI) * 12;
+
+          // Morph Black Ceramic (02) -> Blue Aether Midnight (03)
+          const morph23 = Math.max(0, Math.min(1, (t - 0.34) / 0.34));
+          img1.style.opacity = "0";
+          img2.style.opacity = (1 - morph23).toFixed(3);
+          img3.style.opacity = morph23.toFixed(3);
+        }
 
         const tx = cx - anchors.w1 / 2;
         const ty = cy - anchors.h1 / 2;
         rig.style.transform =
           `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${scale.toFixed(4)}) rotate(${rot.toFixed(2)}deg)`;
-
-        // Seamless mid-flight cross-morph from Rose-Gold Anatomy Watch -> Floating Obsidian Chrono
-        const morph = Math.max(0, Math.min(1, (p - 0.34) / 0.34));
-        img1.style.opacity = (1 - morph).toFixed(3);
-        img2.style.opacity = morph.toFixed(3);
       }
 
       function tick() {
@@ -4140,6 +4230,7 @@
       }
       img1.addEventListener("load", initSync);
       img2.addEventListener("load", initSync);
+      img3.addEventListener("load", initSync);
       setTimeout(initSync, 150);
       initSync();
     })();
